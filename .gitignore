@@ -21,3 +21,11 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+/LPII02/build/
+/LPII02/dist/
+/LPII02.Business/build/
+/LPII02.Dal/build/
+/LPII02.Domain/build/
+/LPII02.Domain/dist/
+/LPII02.Dal/dist/
+/LPII02.Business/dist/
