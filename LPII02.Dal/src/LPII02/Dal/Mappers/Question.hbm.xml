@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <!--
 DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
 
@@ -39,17 +39,32 @@ made subject to such option by the copyright holder.
 
 Contributor(s):
 -->
-<hibernate-configuration>
-  <session-factory>
-    <property name="hibernate.connection.driver_class">com.microsoft.sqlserver.jdbc.SQLServerDriver</property>
-    <property name="hibernate.connection.url">jdbc:sqlserver://localhost\projects:1433;databaseName=Cranio</property>
-    <property name="hibernate.connection.username">sa</property>
-    <property name="hibernate.connection.password">G31h07cp1994*</property>
-    <mapping resource="LPII02/Dal/Mappers/Matter.hbm.xml"/>
-    <mapping resource="LPII02/Dal/Mappers/Difficulty.hbm.xml"/>
-    <mapping resource="LPII02/Dal/Mappers/Permission.hbm.xml"/>
-    <mapping resource="LPII02/Dal/Mappers/Question.hbm.xml"/>
-    <mapping resource="LPII02/Dal/Mappers/Alternative.hbm.xml"/>
-    <mapping resource="LPII02/Dal/Mappers/AccessGroup.hbm.xml"/>
-  </session-factory>
-</hibernate-configuration>
+<hibernate-mapping>
+    <class name="LPII02.Domain.Entities.Question" table="Question">
+        <id name="id" type="int">
+            <column name="id"/>
+            <generator class="identity"/>
+        </id>
+        <property name="fileGuid" type="string">
+            <column name="fileGuid" not-null="true"/>
+        </property>
+        <property name="enunciated" type="string">
+            <column name="enunciated" not-null="true"/>
+        </property>
+        <property name="image" type="byte[]">
+            <column name="image" not-null="false"/>       
+        </property>
+        <property name="answer" type="string">
+            <column name="answer" not-null="true"/>       
+        </property>
+        <property name="insertDate" type="java.util.Date">
+            <column name="insertDate" not-null="true"/>       
+        </property>
+        <many-to-one name="matter" class="LPII02.Domain.Entities.Matter" column="matterId" not-null="true"/>
+        <many-to-one name="difficulty" class="LPII02.Domain.Entities.Difficulty" column="difficultyId" not-null="true"/>
+        <set name="alternatives" inverse="true" cascade="all">
+            <key column="questionId" not-null="true" />
+            <one-to-many class="LPII02.Domain.Entities.Alternative"/>
+        </set>
+    </class>
+</hibernate-mapping>

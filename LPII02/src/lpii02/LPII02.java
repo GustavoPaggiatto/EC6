@@ -20,12 +20,7 @@ public class LPII02 {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
-        try {
-            registerDependencies();
-        }
-        catch (Exception ex) {
-        }
+        new JFMain();
     }
     
     private static void registerDependencies() throws ClassNotFoundException, FileNotFoundException, IOException {

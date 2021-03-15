@@ -11,10 +11,10 @@ import java.util.Set;
  *
  * @author Gustavo
  */
-public class Matter extends BaseEntity {
+public class Difficulty extends BaseEntity {
 
-    protected String name;
-    protected int code;
+    private int code;
+    private String description;
     private Set<Question> questions;
 
     public Set<Question> getQuestions() {
@@ -25,19 +25,19 @@ public class Matter extends BaseEntity {
         this.questions = questions;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String _name) {
-        this.name = _name;
-    }
-
     public int getCode() {
-        return this.code;
+        return code;
     }
 
     public void setCode(int code) {
         this.code = code;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

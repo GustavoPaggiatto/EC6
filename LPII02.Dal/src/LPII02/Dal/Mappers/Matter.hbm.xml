@@ -40,16 +40,20 @@ made subject to such option by the copyright holder.
 Contributor(s):
 -->
 <hibernate-mapping>
-  <class name="LPII02.Domain.Entities.Matter" table="Matter">
-    <id name="id" type="int">
-      <column name="id"/>
-      <generator class="identity"/>
-    </id>
-    <property name="name" type="string">
-      <column length="200" name="name" not-null="true"/>
-    </property>
-    <property name="code" type="int">
-      <column name="code" not-null="true"/>
-    </property>
-  </class>
+    <class name="LPII02.Domain.Entities.Matter" table="Matter">
+        <id name="id" type="int">
+            <column name="id"/>
+            <generator class="identity"/>
+        </id>
+        <property name="name" type="string">
+            <column length="200" name="name" not-null="true"/>
+        </property>
+        <property name="code" type="int">
+            <column name="code" not-null="true"/>
+        </property>
+        <set name="questions" inverse="true" cascade="all">
+            <key column="matterId" not-null="true" />
+            <one-to-many class="LPII02.Domain.Entities.Question"/>
+        </set>
+    </class>
 </hibernate-mapping>
