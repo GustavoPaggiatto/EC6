@@ -88,6 +88,11 @@ public class JFMain extends javax.swing.JFrame {
         jMenuItem1.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         jMenuItem1.setText("Sair");
         jMenuItem1.setName("imLeave"); // NOI18N
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem1);
 
         jMenuBar1.add(jMenu1);
@@ -109,11 +114,21 @@ public class JFMain extends javax.swing.JFrame {
         jMenuItem4.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         jMenuItem4.setText("Dificuldade");
         jMenuItem4.setName("miInDifficulty"); // NOI18N
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem4);
 
         jMenuItem5.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         jMenuItem5.setText("Permissões");
         jMenuItem5.setName("miInPermissions"); // NOI18N
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem5);
 
         jMenuItem6.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
@@ -156,7 +171,6 @@ public class JFMain extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        // TODO add your handling code here:
         JInternalFrame internalFrame = new JInternalFrame("Matérias",
                 true,
                 true,
@@ -171,6 +185,43 @@ public class JFMain extends javax.swing.JFrame {
         this.jDesktopPane1.add(internalFrame);
         internalFrame.setVisible(true);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        JInternalFrame internalFrame = new JInternalFrame("Dificuldades",
+                true,
+                true,
+                true,
+                true);
+        
+        Container container = internalFrame.getContentPane();
+        JPDifficulty frame = new JPDifficulty();
+        
+        container.add(frame, BorderLayout.CENTER);
+        internalFrame.pack();
+        this.jDesktopPane1.add(internalFrame);
+        internalFrame.setVisible(true);
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        JInternalFrame internalFrame = new JInternalFrame("Permissions",
+                true,
+                true,
+                true,
+                true);
+        
+        Container container = internalFrame.getContentPane();
+        JPPermission frame = new JPPermission();
+        
+        container.add(frame, BorderLayout.CENTER);
+        internalFrame.pack();
+        this.jDesktopPane1.add(internalFrame);
+        internalFrame.setVisible(true);
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**
      * @param args the command line arguments
