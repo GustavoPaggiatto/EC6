@@ -41,6 +41,12 @@ public class JPMatter extends javax.swing.JPanel {
         jButton6 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
 
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                panelShow(evt);
+            }
+        });
+
         jButton2.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         jButton2.setText("Editar");
         jButton2.setName("btnEdit"); // NOI18N
@@ -159,6 +165,11 @@ public class JPMatter extends javax.swing.JPanel {
 
         jTextField1.getAccessibleContext().setAccessibleName("txtCode");
     }// </editor-fold>//GEN-END:initComponents
+
+    private void panelShow(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_panelShow
+        
+        
+    }//GEN-LAST:event_panelShow
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

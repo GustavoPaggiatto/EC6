@@ -94,7 +94,7 @@ public class JPDifficulty extends javax.swing.JPanel {
                 {null, null}
             },
             new String [] {
-                "C[odigo", "Nome"
+                "Código", "Nome"
             }
         ));
         jTable2.setName("grDifficulties"); // NOI18N

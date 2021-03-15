@@ -7,6 +7,7 @@ package LPII02.Dal.Repositories;
 
 import LPII02.Dal.Orm.HibernateUtil;
 import java.util.List;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -138,10 +139,50 @@ public abstract class BaseRepository<T> {
     }
 
     public T get(int id) {
-        return null;
+        try {
+            Query query = this._session.createQuery("from " + this._class.getName() + " where id=" + id);
+            List<T> result = query.list();
+
+            if (result == null || result.size() == 0) {
+                return null;
+            }
+
+            return result.get(0);
+        } catch (Exception ex) {
+            throw ex;
+        } finally {
+            this._session.close();
+        }
     }
 
     public List<T> get(int[] ids) {
-        return null;
+        try {
+            String unionIds = "";
+
+            for (int id : ids) {
+                unionIds += id + ",";
+            }
+
+            unionIds = unionIds.substring(0, unionIds.length() - 1);
+
+            Query query = this._session.createQuery("from " + this._class.getName() + " where id in(" + unionIds + ")");
+
+            return query.list();
+        } catch (Exception ex) {
+            throw ex;
+        } finally {
+            this._session.close();
+        }
+    }
+
+    public List<T> get() {
+        try {
+            Query query = this._session.createQuery("from " + this._class.getName() + "");
+            return query.list();
+        } catch (Exception ex) {
+            throw ex;
+        } finally {
+            this._session.close();
+        }
     }
 }

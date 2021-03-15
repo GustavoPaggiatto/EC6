@@ -46,6 +46,7 @@ public class JFMain extends javax.swing.JFrame {
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
+        jMenuItem8 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
 
         label1.setText("label1");
@@ -147,6 +148,17 @@ public class JFMain extends javax.swing.JFrame {
         jMenu3.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jMenu3.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         jMenu3.setName("mTests"); // NOI18N
+
+        jMenuItem8.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        jMenuItem8.setText("Histórico");
+        jMenuItem8.setName("miHistory"); // NOI18N
+        jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem8ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem8);
+
         jMenuBar1.add(jMenu3);
 
         jMenu4.setText("Fóruns");
@@ -176,10 +188,10 @@ public class JFMain extends javax.swing.JFrame {
                 true,
                 true,
                 true);
-        
+
         Container container = internalFrame.getContentPane();
         JPMatter matterFrame = new JPMatter();
-        
+
         container.add(matterFrame, BorderLayout.CENTER);
         internalFrame.pack();
         this.jDesktopPane1.add(internalFrame);
@@ -192,10 +204,10 @@ public class JFMain extends javax.swing.JFrame {
                 true,
                 true,
                 true);
-        
+
         Container container = internalFrame.getContentPane();
         JPDifficulty frame = new JPDifficulty();
-        
+
         container.add(frame, BorderLayout.CENTER);
         internalFrame.pack();
         this.jDesktopPane1.add(internalFrame);
@@ -203,15 +215,15 @@ public class JFMain extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
-        JInternalFrame internalFrame = new JInternalFrame("Permissions",
+        JInternalFrame internalFrame = new JInternalFrame("Permissões",
                 true,
                 true,
                 true,
                 true);
-        
+
         Container container = internalFrame.getContentPane();
         JPPermission frame = new JPPermission();
-        
+
         container.add(frame, BorderLayout.CENTER);
         internalFrame.pack();
         this.jDesktopPane1.add(internalFrame);
@@ -222,6 +234,22 @@ public class JFMain extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
+        JInternalFrame internalFrame = new JInternalFrame("Histórico - Testes",
+                true,
+                true,
+                true,
+                true);
+
+        Container container = internalFrame.getContentPane();
+        JPTestsHistory frame = new JPTestsHistory();
+
+        container.add(frame, BorderLayout.CENTER);
+        internalFrame.pack();
+        this.jDesktopPane1.add(internalFrame);
+        internalFrame.setVisible(true);
+    }//GEN-LAST:event_jMenuItem8ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -273,6 +301,7 @@ public class JFMain extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
+    private javax.swing.JMenuItem jMenuItem8;
     private java.awt.Label label1;
     // End of variables declaration//GEN-END:variables
 }
