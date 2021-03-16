@@ -5,17 +5,26 @@
  */
 package lpii02;
 
+import LPII02.Business.Services.MatterBusiness;
+import LPII02.Domain.Entities.Matter;
+import java.util.List;
+import java.util.Vector;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Gustavo
  */
 public class JPMatter extends javax.swing.JPanel {
 
+    private MatterBusiness _matterBusiness;
+
     /**
      * Creates new form JPMatter
      */
     public JPMatter() {
         initComponents();
+        this._matterBusiness = new MatterBusiness();
     }
 
     /**
@@ -30,7 +39,7 @@ public class JPMatter extends javax.swing.JPanel {
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        grMatters = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
@@ -41,9 +50,9 @@ public class JPMatter extends javax.swing.JPanel {
         jButton6 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
 
-        addComponentListener(new java.awt.event.ComponentAdapter() {
-            public void componentShown(java.awt.event.ComponentEvent evt) {
-                panelShow(evt);
+        addHierarchyListener(new java.awt.event.HierarchyListener() {
+            public void hierarchyChanged(java.awt.event.HierarchyEvent evt) {
+                formHierarchyChanged(evt);
             }
         });
 
@@ -57,8 +66,8 @@ public class JPMatter extends javax.swing.JPanel {
 
         jScrollPane1.setName("srPanel"); // NOI18N
 
-        jTable1.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        grMatters.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        grMatters.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},
                 {null, null}
@@ -67,8 +76,8 @@ public class JPMatter extends javax.swing.JPanel {
                 "Código", "Nome"
             }
         ));
-        jTable1.setName("grMatters"); // NOI18N
-        jScrollPane1.setViewportView(jTable1);
+        grMatters.setName("grMatters"); // NOI18N
+        jScrollPane1.setViewportView(grMatters);
 
         jLabel1.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         jLabel1.setText("Código:");
@@ -106,7 +115,7 @@ public class JPMatter extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 377, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -166,13 +175,29 @@ public class JPMatter extends javax.swing.JPanel {
         jTextField1.getAccessibleContext().setAccessibleName("txtCode");
     }// </editor-fold>//GEN-END:initComponents
 
-    private void panelShow(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_panelShow
-        
-        
-    }//GEN-LAST:event_panelShow
+    private void formHierarchyChanged(java.awt.event.HierarchyEvent evt) {//GEN-FIRST:event_formHierarchyChanged
+        try {
+            List<Matter> matters = this._matterBusiness.get();
+
+            if (matters != null) {
+                DefaultTableModel dtm = new DefaultTableModel(0, 0);
+                
+                dtm.setColumnIdentifiers(new String[]{"Código", "Nome"});
+                this.grMatters.setModel(dtm);
+
+                for (Matter m : matters) {
+                    dtm.addRow(new Object[]{
+                        m.getCode(), m.getName()
+                    });
+                }
+            }
+        } catch (Exception ex) {
+        }
+    }//GEN-LAST:event_formHierarchyChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable grMatters;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -183,7 +208,6 @@ public class JPMatter extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables

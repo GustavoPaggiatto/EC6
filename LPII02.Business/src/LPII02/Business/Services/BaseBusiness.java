@@ -5,6 +5,7 @@
  */
 package LPII02.Business.Services;
 
+import LPII02.Dal.Repositories.BaseRepository;
 import java.util.List;
 
 /**
@@ -14,40 +15,50 @@ import java.util.List;
 public abstract class BaseBusiness<T> {
 
     protected Class<T> _serviceClass;
+    protected BaseRepository<T> _repository;
 
     public BaseBusiness(Class<T> serviceClass) {
         this._serviceClass = serviceClass;
     }
 
-    public void insert(T model) {
+    public BaseBusiness(Class<T> serviceClass, BaseRepository repository) {
+        this._serviceClass = serviceClass;
+        this._repository = repository;
+    }
 
+    public void insert(T model) {
+        this._repository.insert(model, true);
     }
 
     public void insert(List<T> models) {
-
+        this._repository.insert(models, true);
     }
 
     public void update(T model) {
-
+        this._repository.update(model, true);
     }
 
     public void update(List<T> models) {
-
+        this._repository.update(models, true);
     }
 
     public void delete(T model) {
-
+        this._repository.delete(model, true);
     }
 
     public void delete(List<T> models) {
-
+        this._repository.delete(models, true);
     }
 
     public T get(int id) {
-        return null;
+        return this._repository.get(id);
     }
 
     public List<T> get(int[] ids) {
-        return null;
+        return this._repository.get(ids);
+    }
+
+    public List<T> get() {
+        return this._repository.get();
     }
 }
