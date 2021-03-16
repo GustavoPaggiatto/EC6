@@ -7,6 +7,13 @@ package lpii02;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.net.URL;
+import javax.imageio.ImageIO;
 import javax.swing.JInternalFrame;
 
 /**
@@ -34,7 +41,27 @@ public class JFMain extends javax.swing.JFrame {
     private void initComponents() {
 
         label1 = new java.awt.Label();
-        jDesktopPane1 = new javax.swing.JDesktopPane();
+        jDesktopPane1 = new javax.swing.JDesktopPane() {
+            @Override
+            protected void paintComponent(Graphics grphcs) {
+                super.paintComponent(grphcs);
+                Image _backImg = null;
+
+                try {
+                    _backImg = ImageIO.read(new File("C:\\Users\\Gustavo\\Desktop\\EC5\\Java\\Projeto\\EC6\\Imgs\\logo_school_two_without_text.png"));
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+
+                if (_backImg != null) {
+                    Dimension dimension = this.getSize();
+                    int x = (int)(dimension.getWidth() - _backImg.getWidth(this)) / 2;
+                    int y = (int)(dimension.getHeight() - _backImg.getHeight(this)) / 2;
+
+                    grphcs.drawImage(_backImg, x, y, _backImg.getWidth(this), _backImg.getHeight(this), this);
+                }
+            }
+        };
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
@@ -58,7 +85,7 @@ public class JFMain extends javax.swing.JFrame {
         setResizable(false);
         setSize(new java.awt.Dimension(800, 770));
 
-        jDesktopPane1.setBackground(new java.awt.Color(153, 153, 153));
+        jDesktopPane1.setBackground(new java.awt.Color(204, 204, 204));
         jDesktopPane1.setForeground(new java.awt.Color(153, 153, 153));
         jDesktopPane1.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         jDesktopPane1.setName("mdiComponent"); // NOI18N
@@ -135,6 +162,11 @@ public class JFMain extends javax.swing.JFrame {
         jMenuItem6.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         jMenuItem6.setText("Grupo de Acesso");
         jMenuItem6.setName("miInAccessGroup"); // NOI18N
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItem6);
 
         jMenuItem7.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
@@ -250,6 +282,22 @@ public class JFMain extends javax.swing.JFrame {
         this.jDesktopPane1.add(internalFrame);
         internalFrame.setVisible(true);
     }//GEN-LAST:event_jMenuItem8ActionPerformed
+
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        JInternalFrame internalFrame = new JInternalFrame("Grupos de Acesso",
+                true,
+                true,
+                true,
+                true);
+
+        Container container = internalFrame.getContentPane();
+        JPAccessGroup frame = new JPAccessGroup();
+
+        container.add(frame, BorderLayout.CENTER);
+        internalFrame.pack();
+        this.jDesktopPane1.add(internalFrame);
+        internalFrame.setVisible(true);
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     /**
      * @param args the command line arguments

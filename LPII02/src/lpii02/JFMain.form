@@ -100,6 +100,9 @@
                 <Property name="text" type="java.lang.String" value="Grupo de Acesso"/>
                 <Property name="name" type="java.lang.String" value="miInAccessGroup" noResource="true"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem6ActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem7">
               <Properties>
@@ -195,7 +198,7 @@
     <Container class="javax.swing.JDesktopPane" name="jDesktopPane1">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="99" green="99" red="99" type="rgb"/>
+          <Color blue="cc" green="cc" red="cc" type="rgb"/>
         </Property>
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="99" green="99" red="99" type="rgb"/>
@@ -206,7 +209,7 @@
         <Property name="name" type="java.lang.String" value="mdiComponent" noResource="true"/>
       </Properties>
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JDesktopPane()"/>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JDesktopPane() {&#xa;    @Override&#xa;    protected void paintComponent(Graphics grphcs) {&#xa;        super.paintComponent(grphcs);&#xa;        Image _backImg = null;&#xa;&#xa;        try {&#xa;            _backImg = ImageIO.read(new File(&quot;C:\\Users\\Gustavo\\Desktop\\EC5\\Java\\Projeto\\EC6\\Imgs\\logo_school_two_without_text.png&quot;));&#xa;        } catch (Exception ex) {&#xa;            ex.printStackTrace();&#xa;        }&#xa;&#xa;        if (_backImg != null) {&#xa;            Dimension dimension = this.getSize();&#xa;            int x = (int)(dimension.getWidth() - _backImg.getWidth(this)) / 2;&#xa;            int y = (int)(dimension.getHeight() - _backImg.getHeight(this)) / 2;&#xa;&#xa;            grphcs.drawImage(_backImg, x, y, _backImg.getWidth(this), _backImg.getHeight(this), this);&#xa;        }&#xa;    }&#xa;}"/>
       </AuxValues>
 
       <Layout>
