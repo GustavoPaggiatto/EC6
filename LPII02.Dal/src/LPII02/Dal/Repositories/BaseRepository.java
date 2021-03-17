@@ -31,9 +31,14 @@ public abstract class BaseRepository<T> {
     }
 
     public void insert(T model, boolean close) {
+        if (!this._session.isOpen()) {
+            this._session = HibernateUtil.getSessionFactory().openSession();
+        }
+
         this._session.save(model);
 
         if (close) {
+            this._session.flush();
             this._session.close();
         }
     }
@@ -67,9 +72,14 @@ public abstract class BaseRepository<T> {
     }
 
     public void update(T model, boolean close) {
+        if (!this._session.isOpen()) {
+            this._session = HibernateUtil.getSessionFactory().openSession();
+        }
+        
         this._session.update(model);
 
         if (close) {
+            this._session.flush();
             this._session.close();
         }
     }
@@ -106,6 +116,7 @@ public abstract class BaseRepository<T> {
         this._session.delete(model);
 
         if (close) {
+            this._session.flush();
             this._session.close();
         }
     }
@@ -140,6 +151,10 @@ public abstract class BaseRepository<T> {
 
     public T get(int id) {
         try {
+            if (!this._session.isOpen()) {
+                this._session = HibernateUtil.getSessionFactory().openSession();
+            }
+
             Query query = this._session.createQuery("from " + this._class.getName() + " where id=" + id);
             List<T> result = query.list();
 
@@ -177,7 +192,11 @@ public abstract class BaseRepository<T> {
 
     public List<T> get() {
         try {
-            Query query = this._session.createQuery("from " + this._class.getName() + "");
+            if (!this._session.isOpen()) {
+                this._session = HibernateUtil.getSessionFactory().openSession();
+            }
+
+            Query query = this._session.createQuery("from " + this._class.getName());
             return query.list();
         } catch (Exception ex) {
             throw ex;

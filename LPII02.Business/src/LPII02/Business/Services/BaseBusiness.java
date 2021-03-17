@@ -26,7 +26,11 @@ public abstract class BaseBusiness<T> {
         this._repository = repository;
     }
 
-    public void insert(T model) {
+    public T getInstance() throws InstantiationException, IllegalAccessException {
+        return this._serviceClass.newInstance();
+    }
+
+    public void insert(T model) throws Exception {
         this._repository.insert(model, true);
     }
 
@@ -34,7 +38,7 @@ public abstract class BaseBusiness<T> {
         this._repository.insert(models, true);
     }
 
-    public void update(T model) {
+    public void update(T model) throws Exception {
         this._repository.update(model, true);
     }
 

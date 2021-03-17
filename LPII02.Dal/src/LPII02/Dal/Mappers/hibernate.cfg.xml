@@ -45,6 +45,7 @@ Contributor(s):
     <property name="hibernate.connection.url">jdbc:sqlserver://localhost\projects:1433;databaseName=Cranio</property>
     <property name="hibernate.connection.username">sa</property>
     <property name="hibernate.connection.password">G31h07cp1994*</property>
+    <property name="connection.autocommit">true</property>
     <mapping resource="LPII02/Dal/Mappers/Matter.hbm.xml"/>
     <mapping resource="LPII02/Dal/Mappers/Difficulty.hbm.xml"/>
     <mapping resource="LPII02/Dal/Mappers/Permission.hbm.xml"/>
