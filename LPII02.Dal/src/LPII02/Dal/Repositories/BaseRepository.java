@@ -75,7 +75,7 @@ public abstract class BaseRepository<T> {
         if (!this._session.isOpen()) {
             this._session = HibernateUtil.getSessionFactory().openSession();
         }
-        
+
         this._session.update(model);
 
         if (close) {
@@ -113,6 +113,10 @@ public abstract class BaseRepository<T> {
     }
 
     public void delete(T model, boolean close) {
+        if (!this._session.isOpen()) {
+            this._session = HibernateUtil.getSessionFactory().openSession();
+        }
+
         this._session.delete(model);
 
         if (close) {

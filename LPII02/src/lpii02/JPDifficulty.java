@@ -5,9 +5,18 @@
  */
 package lpii02;
 
+import LPII02.Business.Services.DifficultyBusiness;
+import LPII02.Domain.Entities.Difficulty;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -15,18 +24,64 @@ import javax.swing.JScrollPane;
  */
 public class JPDifficulty extends javax.swing.JPanel {
 
+    private DifficultyBusiness _difficultyBusiness = new DifficultyBusiness();
+    private int _page = 1;
+    private int _qtdPerPage = 10;
+    private boolean _loadPassed = false;
+
     /**
      * Creates new form JPDifficulty
      */
     public JPDifficulty() {
         initComponents();
 
-        //scroll
-        JScrollPane scrollPane = new JScrollPane(jPanel1);
+        this.grDifficulties.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                valueRowChanged(e);
+            }
+        });
+    }
 
-        scrollPane.setPreferredSize(new Dimension(400, 450));
-        scrollPane.setVisible(true);
-        add(scrollPane);
+    private void valueRowChanged(ListSelectionEvent e) {
+        if (this.grDifficulties.getSelectedRows() == null
+                || this.grDifficulties.getSelectedRows().length == 0) {
+            return;
+        }
+
+        int selectedRow = this.grDifficulties.getSelectedRows()[0];
+
+        this.txtCode.setText(this.grDifficulties.getValueAt(selectedRow, 0).toString());
+        this.txtName.setText(this.grDifficulties.getValueAt(selectedRow, 1).toString());
+
+        this.txtCode.setEnabled(false);
+    }
+
+    private void clearControls() {
+        txtCode.setText("");
+        txtName.setText("");
+    }
+
+    private void loadTable() {
+        List<Difficulty> difficulties = this._difficultyBusiness.get();
+
+        if (difficulties.size() > this._qtdPerPage) {
+            difficulties = difficulties.subList((this._page - 1) * this._qtdPerPage, this._qtdPerPage);
+        }
+
+        if (difficulties != null) {
+            DefaultTableModel dtm = (DefaultTableModel) this.grDifficulties.getModel();
+
+            while (dtm.getRowCount() > 0) {
+                dtm.removeRow(0);
+            }
+
+            for (Difficulty d : difficulties) {
+                dtm.addRow(new Object[]{
+                    d.getCode(), d.getDescription()
+                });
+            }
+        }
     }
 
     /**
@@ -38,26 +93,32 @@ public class JPDifficulty extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        jpDiffs = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        txtCode = new javax.swing.JTextField();
+        txtName = new javax.swing.JTextField();
+        btnAdd = new javax.swing.JButton();
+        btnEdit = new javax.swing.JButton();
+        btnDelete = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        grDifficulties = new javax.swing.JTable();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
+        btnNew = new javax.swing.JButton();
 
         setName("JPDifficulty"); // NOI18N
         setPreferredSize(new java.awt.Dimension(400, 468));
 
-        jPanel1.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        jPanel1.setName("JPScroll"); // NOI18N
+        jpDiffs.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        jpDiffs.setName("JPScroll"); // NOI18N
+        jpDiffs.addHierarchyListener(new java.awt.event.HierarchyListener() {
+            public void hierarchyChanged(java.awt.event.HierarchyEvent evt) {
+                jpDiffsHierarchyChanged(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         jLabel1.setText("Código:");
@@ -67,38 +128,41 @@ public class JPDifficulty extends javax.swing.JPanel {
         jLabel2.setText("Nome:");
         jLabel2.setName("lblName"); // NOI18N
 
-        jTextField1.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        jTextField1.setName("txtCode"); // NOI18N
+        txtCode.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        txtCode.setEnabled(false);
+        txtCode.setName("txtCode"); // NOI18N
 
-        jTextField2.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        jTextField2.setName("txtDescription"); // NOI18N
+        txtName.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        txtName.setName("txtDescription"); // NOI18N
 
-        jButton1.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        jButton1.setText("Cadastrar");
-        jButton1.setName("btnInsert"); // NOI18N
+        btnAdd.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        btnAdd.setText("Cadastrar");
+        btnAdd.setName("btnInsert"); // NOI18N
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
 
-        jButton2.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        jButton2.setText("Editar");
-        jButton2.setName("btnEdit"); // NOI18N
+        btnEdit.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        btnEdit.setText("Editar");
+        btnEdit.setName("btnEdit"); // NOI18N
 
-        jButton3.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        jButton3.setText("Excluir");
-        jButton3.setName("btnDelete"); // NOI18N
+        btnDelete.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        btnDelete.setText("Excluir");
+        btnDelete.setName("btnDelete"); // NOI18N
 
-        jTable2.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        grDifficulties.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        grDifficulties.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+
             },
             new String [] {
                 "Código", "Nome"
             }
         ));
-        jTable2.setName("grDifficulties"); // NOI18N
-        jScrollPane2.setViewportView(jTable2);
+        grDifficulties.setName("grDifficulties"); // NOI18N
+        jScrollPane2.setViewportView(grDifficulties);
 
         jButton4.setText("<<");
         jButton4.setName("btnFirst"); // NOI18N
@@ -112,35 +176,19 @@ public class JPDifficulty extends javax.swing.JPanel {
         jButton7.setText(">>");
         jButton7.setName("btnLast"); // NOI18N
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(18, 18, 18)
-                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(43, 43, 43)
-                        .addComponent(jButton1)
-                        .addGap(32, 32, 32)
-                        .addComponent(jButton2)
-                        .addGap(29, 29, 29)
-                        .addComponent(jButton3))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(20, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+        btnNew.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        btnNew.setText("Novo");
+        btnNew.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNewActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jpDiffsLayout = new javax.swing.GroupLayout(jpDiffs);
+        jpDiffs.setLayout(jpDiffsLayout);
+        jpDiffsLayout.setHorizontalGroup(
+            jpDiffsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpDiffsLayout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jButton4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -150,27 +198,54 @@ public class JPDifficulty extends javax.swing.JPanel {
                 .addGap(10, 10, 10)
                 .addComponent(jButton7)
                 .addGap(20, 20, 20))
+            .addGroup(jpDiffsLayout.createSequentialGroup()
+                .addGroup(jpDiffsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jpDiffsLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jpDiffsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jpDiffsLayout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtCode, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jpDiffsLayout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(jpDiffsLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jpDiffsLayout.createSequentialGroup()
+                        .addGap(38, 38, 38)
+                        .addComponent(btnNew)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnAdd)
+                        .addGap(10, 10, 10)
+                        .addComponent(btnEdit)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnDelete)))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        jpDiffsLayout.setVerticalGroup(
+            jpDiffsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpDiffsLayout.createSequentialGroup()
                 .addContainerGap(35, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jpDiffsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(24, 24, 24)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jpDiffsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(34, 34, 34)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
+                .addGroup(jpDiffsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAdd)
+                    .addComponent(btnEdit)
+                    .addComponent(btnDelete)
+                    .addComponent(btnNew))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(5, 5, 5)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jpDiffsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton4)
                     .addComponent(jButton5)
                     .addComponent(jButton6)
@@ -182,31 +257,112 @@ public class JPDifficulty extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jpDiffs, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jpDiffs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
+        this.clearControls();
+        this.txtCode.setEnabled(true);
+    }//GEN-LAST:event_btnNewActionPerformed
+
+    private void jpDiffsHierarchyChanged(java.awt.event.HierarchyEvent evt) {//GEN-FIRST:event_jpDiffsHierarchyChanged
+        if (this._loadPassed) {
+            return;
+        }
+
+        try {
+            this.loadTable();
+            this._loadPassed = true;
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Ocorreu um erro ao carregar as dificuldades, tente novamente.",
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jpDiffsHierarchyChanged
+
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        try {
+            txtCode.setText(txtCode.getText());
+            txtName.setText(txtName.getText());
+
+            if (txtCode.getText().length() == 0) {
+                JOptionPane.showMessageDialog(
+                        null,
+                        "O código deve ser informado.",
+                        "Atenção",
+                        JOptionPane.WARNING_MESSAGE);
+
+                return;
+            }
+
+            Pattern pattern = Pattern.compile("[^0-9]", Pattern.CASE_INSENSITIVE);
+            Matcher matcher = pattern.matcher(txtCode.getText());
+
+            if (matcher.find()) {
+                //show message warning...
+                JOptionPane.showMessageDialog(
+                        null,
+                        "O código deve ser numérico.",
+                        "Atenção",
+                        JOptionPane.WARNING_MESSAGE);
+
+                return;
+            }
+
+            Difficulty diff = this._difficultyBusiness.getInstance();
+
+            diff.setCode(Integer.parseInt(txtCode.getText()));
+            diff.setDescription(txtName.getText());
+
+            this._difficultyBusiness.insert(diff);
+
+            //reload table...
+            this.loadTable();
+
+            //reset...
+            this.clearControls();
+            this.txtCode.setEnabled(false);
+
+            //message success...
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Cadastro efetuado com sucesso!",
+                    "Info.",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    ex.getMessage(),
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnAddActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnEdit;
+    private javax.swing.JButton btnNew;
+    private javax.swing.JTable grDifficulties;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JPanel jpDiffs;
+    private javax.swing.JTextField txtCode;
+    private javax.swing.JTextField txtName;
     // End of variables declaration//GEN-END:variables
 }

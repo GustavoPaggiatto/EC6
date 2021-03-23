@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import org.hibernate.type.StandardBasicTypes;
 
 /**
  *
@@ -33,6 +34,12 @@ public class JPMatter extends javax.swing.JPanel {
     public JPMatter() {
         initComponents();
         this._matterBusiness = new MatterBusiness();
+        this.grMatters.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                valueRowChanged(e);
+            }
+        });
     }
 
     /**
@@ -77,14 +84,18 @@ public class JPMatter extends javax.swing.JPanel {
         btnDelete.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         btnDelete.setText("Excluir");
         btnDelete.setName("btnDelete"); // NOI18N
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
 
         jScrollPane1.setName("srPanel"); // NOI18N
 
         grMatters.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         grMatters.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null}
+
             },
             new String [] {
                 "Código", "Nome"
@@ -282,6 +293,7 @@ public class JPMatter extends javax.swing.JPanel {
 
             //reset...
             this.clearControls();
+            this.txtCode.setEnabled(false);
 
             //message success...
             JOptionPane.showMessageDialog(
@@ -388,6 +400,7 @@ public class JPMatter extends javax.swing.JPanel {
 
             //reset...
             this.clearControls();
+            this.txtCode.setEnabled(false);
 
             //message success...
             JOptionPane.showMessageDialog(
@@ -404,6 +417,45 @@ public class JPMatter extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnEditActionPerformed
 
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        try {
+            if (JOptionPane.showConfirmDialog(
+                    this,
+                    "Deseja realmente excluir a matéria?",
+                    "Confirmação",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE) == 0) {
+
+                //deleting model...
+                Matter model = this._matterBusiness.getByCode(Integer.parseInt(this.txtCode.getText()));
+
+                if (model != null) {
+                    this._matterBusiness.delete(model);
+                }
+
+                //reset...
+                this.clearControls();
+                this.txtCode.setEnabled(false);
+                
+                //load table...
+                this.loadTable();
+
+                //message success...
+                JOptionPane.showMessageDialog(
+                        null,
+                        "Exclusão efetuada com sucesso!",
+                        "Info.",
+                        JOptionPane.INFORMATION_MESSAGE);
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    ex.getMessage(),
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
     private void clearControls() {
         txtCode.setText("");
         txtName.setText("");
@@ -417,27 +469,26 @@ public class JPMatter extends javax.swing.JPanel {
         }
 
         if (matters != null) {
-            DefaultTableModel dtm = new DefaultTableModel(0, 0);
+            DefaultTableModel dtm = (DefaultTableModel) this.grMatters.getModel();
 
-            dtm.setColumnIdentifiers(new String[]{"Código", "Nome"});
-            this.grMatters.setModel(dtm);
+            while (dtm.getRowCount() > 0) {
+                dtm.removeRow(0);
+            }
 
             for (Matter m : matters) {
                 dtm.addRow(new Object[]{
                     m.getCode(), m.getName()
                 });
             }
-
-            this.grMatters.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-                @Override
-                public void valueChanged(ListSelectionEvent e) {
-                    valueRowChanged(e);
-                }
-            });
         }
     }
 
     private void valueRowChanged(ListSelectionEvent e) {
+        if (this.grMatters.getSelectedRows() == null
+                || this.grMatters.getSelectedRows().length == 0) {
+            return;
+        }
+
         int selectedRow = this.grMatters.getSelectedRows()[0];
 
         this.txtCode.setText(this.grMatters.getValueAt(selectedRow, 0).toString());
