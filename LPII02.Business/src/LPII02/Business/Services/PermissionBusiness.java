@@ -5,30 +5,31 @@
  */
 package LPII02.Business.Services;
 
-import LPII02.Dal.Repositories.DifficultyRepository;
-import LPII02.Domain.Entities.Difficulty;
+import LPII02.Dal.Repositories.BaseRepository;
+import LPII02.Dal.Repositories.PermissionRepository;
+import LPII02.Domain.Entities.Permission;
 
 /**
  *
  * @author Gustavo
  */
-public class DifficultyBusiness extends BaseBusiness<Difficulty> {
+public class PermissionBusiness extends BaseBusiness<Permission> {
 
-    public DifficultyBusiness() {
-        super(Difficulty.class, new DifficultyRepository());
+    public PermissionBusiness() {
+        super(Permission.class, new PermissionRepository());
     }
 
     @Override
-    public void insert(Difficulty model) throws Exception {
+    public void insert(Permission model) throws Exception {
         if (model.getCode() <= 0) {
             throw new Exception("O código deve ser maior que zero.");
         }
 
-        if (model.getDescription().length() == 0) {
-            throw new Exception("O nome da dificuldade deve ser informado.");
+        if (model.getName().length() == 0) {
+            throw new Exception("O descrição da permissão deve ser informado.");
         }
 
-        Difficulty consult = null;
+        Permission consult = null;
 
         try {
             consult = this.getByCode(model.getCode());
@@ -44,22 +45,22 @@ public class DifficultyBusiness extends BaseBusiness<Difficulty> {
         try {
             super.insert(model);
         } catch (Exception ex) {
-            throw new Exception("Ocorreu um erro ao inserir a dificuldade, tente novamente ou"
+            throw new Exception("Ocorreu um erro ao inserir a permissão, tente novamente ou"
                     + "contate a equipe responsável.");
         }
     }
 
     @Override
-    public void update(Difficulty model) throws Exception {
+    public void update(Permission model) throws Exception {
         if (model.getCode() == 0) {
             throw new Exception("Código não existente, verifique.");
         }
 
-        if (model.getDescription().length() == 0) {
-            throw new Exception("O nome da dificuldade deve ser informado.");
+        if (model.getName().length() == 0) {
+            throw new Exception("O nome da permissão deve ser informado.");
         }
 
-        Difficulty consult = null;
+        Permission consult = null;
 
         try {
             consult = this.getByCode(model.getCode());
@@ -77,16 +78,12 @@ public class DifficultyBusiness extends BaseBusiness<Difficulty> {
 
             super.update(model);
         } catch (Exception ex) {
-            throw new Exception("Ocorreu um erro ao efetuar a alteração da dificuldade, "
+            throw new Exception("Ocorreu um erro ao efetuar a alteração da permissão, "
                     + "tente novamente ou contate a equipe responsável.");
         }
     }
 
-    public Difficulty getByCode(int code) throws Exception {
-        try {
-            return ((DifficultyRepository) this._repository).getByCode(code);
-        } catch (Exception ex) {
-            throw ex;
-        }
+    public Permission getByCode(int code) throws Exception {
+        return ((PermissionRepository) this._repository).getByCode(code);
     }
 }

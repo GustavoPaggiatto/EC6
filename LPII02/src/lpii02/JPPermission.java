@@ -5,17 +5,38 @@
  */
 package lpii02;
 
+import LPII02.Business.Services.PermissionBusiness;
+import LPII02.Domain.Entities.Permission;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import javax.swing.JOptionPane;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Gustavo
  */
 public class JPPermission extends javax.swing.JPanel {
 
+    private int _page = 1;
+    private int _qtdPerPage = 10;
+    private boolean _loadPassed = false;
+    private PermissionBusiness _permissionBusiness = new PermissionBusiness();
+
     /**
      * Creates new form JPPermission
      */
     public JPPermission() {
         initComponents();
+        this.grPermissions.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                valueRowChanged(e);
+            }
+        });
     }
 
     /**
@@ -27,20 +48,27 @@ public class JPPermission extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        jpPermission = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
+        txtCode = new javax.swing.JTextField();
+        txtDescription = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
+        grPermissions = new javax.swing.JTable();
+        btnFirst = new javax.swing.JButton();
+        btnBack = new javax.swing.JButton();
+        btnNext = new javax.swing.JButton();
+        btnLast = new javax.swing.JButton();
+        btnAdd = new javax.swing.JButton();
+        btnEdit = new javax.swing.JButton();
+        btnDelete = new javax.swing.JButton();
+        btnNew = new javax.swing.JButton();
+
+        jpPermission.addHierarchyListener(new java.awt.event.HierarchyListener() {
+            public void hierarchyChanged(java.awt.event.HierarchyEvent evt) {
+                jpPermissionHierarchyChanged(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         jLabel1.setText("Código:");
@@ -50,114 +78,158 @@ public class JPPermission extends javax.swing.JPanel {
         jLabel2.setText("Descrição:");
         jLabel2.setName("lblDescription"); // NOI18N
 
-        jTextField1.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        jTextField1.setName("txtCode"); // NOI18N
+        txtCode.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        txtCode.setEnabled(false);
+        txtCode.setName("txtCode"); // NOI18N
 
-        jTextField2.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        jTextField2.setName("txtDescription"); // NOI18N
+        txtDescription.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        txtDescription.setName("txtDescription"); // NOI18N
 
-        jTable1.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        grPermissions.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        grPermissions.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+
             },
             new String [] {
                 "Código", "Descrição"
             }
         ));
-        jTable1.setName("grPermissions"); // NOI18N
-        jScrollPane1.setViewportView(jTable1);
+        grPermissions.setName("grPermissions"); // NOI18N
+        jScrollPane1.setViewportView(grPermissions);
 
-        jButton1.setText("<<");
-        jButton1.setName("btnFirst"); // NOI18N
+        btnFirst.setText("<<");
+        btnFirst.setName("btnFirst"); // NOI18N
+        btnFirst.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFirstActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("<");
-        jButton2.setName("btnBack"); // NOI18N
+        btnBack.setText("<");
+        btnBack.setName("btnBack"); // NOI18N
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackActionPerformed(evt);
+            }
+        });
 
-        jButton3.setText(">");
-        jButton3.setName("btnNext"); // NOI18N
+        btnNext.setText(">");
+        btnNext.setName("btnNext"); // NOI18N
+        btnNext.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNextActionPerformed(evt);
+            }
+        });
 
-        jButton4.setText(">>");
-        jButton4.setName("btnLast"); // NOI18N
+        btnLast.setText(">>");
+        btnLast.setName("btnLast"); // NOI18N
+        btnLast.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLastActionPerformed(evt);
+            }
+        });
 
-        jButton5.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        jButton5.setText("Cadastrar");
-        jButton5.setName("btnInsert"); // NOI18N
+        btnAdd.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        btnAdd.setText("Cadastrar");
+        btnAdd.setName("btnAdd"); // NOI18N
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
 
-        jButton6.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        jButton6.setText("Editar");
-        jButton6.setName("btnEdit"); // NOI18N
+        btnEdit.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        btnEdit.setText("Editar");
+        btnEdit.setName("btnEdit"); // NOI18N
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditActionPerformed(evt);
+            }
+        });
 
-        jButton7.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        jButton7.setText("Excluir");
-        jButton7.setName("btnDelete"); // NOI18N
+        btnDelete.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        btnDelete.setText("Excluir");
+        btnDelete.setName("btnDelete"); // NOI18N
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        btnNew.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        btnNew.setText("Novo");
+        btnNew.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNewActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jpPermissionLayout = new javax.swing.GroupLayout(jpPermission);
+        jpPermission.setLayout(jpPermissionLayout);
+        jpPermissionLayout.setHorizontalGroup(
+            jpPermissionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpPermissionLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jpPermissionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jpPermissionLayout.createSequentialGroup()
                         .addGap(17, 17, 17)
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtCode, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGroup(jpPermissionLayout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField2))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(txtDescription))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpPermissionLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jpPermissionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(jButton1)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpPermissionLayout.createSequentialGroup()
+                                .addComponent(btnFirst)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton2)
+                                .addComponent(btnBack)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton3)
+                                .addComponent(btnNext)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton4)))))
+                                .addComponent(btnLast)))))
                 .addContainerGap())
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(41, 41, 41)
-                .addComponent(jButton5)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpPermissionLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnNew)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton6)
+                .addComponent(btnAdd)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton7)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(btnEdit)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnDelete)
+                .addGap(18, 18, 18))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        jpPermissionLayout.setVerticalGroup(
+            jpPermissionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpPermissionLayout.createSequentialGroup()
                 .addGap(37, 37, 37)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jpPermissionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jpPermissionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtDescription, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton5)
-                    .addComponent(jButton6)
-                    .addComponent(jButton7))
+                .addGroup(jpPermissionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAdd)
+                    .addComponent(btnEdit)
+                    .addComponent(btnDelete)
+                    .addComponent(btnNew))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4))
+                .addGroup(jpPermissionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnFirst)
+                    .addComponent(btnBack)
+                    .addComponent(btnNext)
+                    .addComponent(btnLast))
                 .addContainerGap())
         );
 
@@ -167,31 +239,292 @@ public class JPPermission extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(2, 2, 2)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jpPermission, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jpPermission, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jpPermissionHierarchyChanged(java.awt.event.HierarchyEvent evt) {//GEN-FIRST:event_jpPermissionHierarchyChanged
+        if (this._loadPassed) {
+            return;
+        }
+
+        try {
+            this.loadTable();
+            this._loadPassed = true;
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Ocorreu um erro ao carregar as permissões, tente novamente.",
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jpPermissionHierarchyChanged
+
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        try {
+            txtCode.setText(txtCode.getText());
+            txtDescription.setText(txtDescription.getText());
+
+            if (txtCode.getText().length() == 0) {
+                JOptionPane.showMessageDialog(
+                        null,
+                        "O código deve ser informado.",
+                        "Atenção",
+                        JOptionPane.WARNING_MESSAGE);
+
+                return;
+            }
+
+            Pattern pattern = Pattern.compile("[^0-9]", Pattern.CASE_INSENSITIVE);
+            Matcher matcher = pattern.matcher(txtCode.getText());
+
+            if (matcher.find()) {
+                //show message warning...
+                JOptionPane.showMessageDialog(
+                        null,
+                        "O código deve ser numérico.",
+                        "Atenção",
+                        JOptionPane.WARNING_MESSAGE);
+
+                return;
+            }
+
+            Permission permission = this._permissionBusiness.getInstance();
+
+            permission.setCode(Integer.parseInt(txtCode.getText()));
+            permission.setName(txtDescription.getText());
+            this._permissionBusiness.insert(permission);
+
+            //reload table...
+            this.loadTable();
+
+            //reset...
+            this.clearControls();
+            this.txtCode.setEnabled(false);
+
+            //message success...
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Cadastro efetuado com sucesso!",
+                    "Info.",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    ex.getMessage(),
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
+        this.clearControls();
+        txtCode.setEnabled(true);
+    }//GEN-LAST:event_btnNewActionPerformed
+
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+        try {
+            Permission permission = this._permissionBusiness.getInstance();
+
+            permission.setCode(Integer.parseInt(txtCode.getText()));
+            permission.setName(txtDescription.getText());
+            this._permissionBusiness.update(permission);
+
+            //reload table...
+            this.loadTable();
+
+            //reset...
+            this.clearControls();
+            this.txtCode.setEnabled(false);
+
+            //message success...
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Alteração efetuada com sucesso!",
+                    "Info.",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    ex.getMessage(),
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnEditActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        try {
+            if (JOptionPane.showConfirmDialog(
+                    this,
+                    "Deseja realmente excluir a permissão?",
+                    "Confirmação",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE) == 0) {
+
+                //deleting model...
+                Permission model = this._permissionBusiness.getByCode(Integer.parseInt(this.txtCode.getText()));
+
+                if (model != null) {
+                    this._permissionBusiness.delete(model);
+                }
+
+                //reset...
+                this.clearControls();
+                this.txtCode.setEnabled(false);
+
+                //load table...
+                this.loadTable();
+
+                //message success...
+                JOptionPane.showMessageDialog(
+                        null,
+                        "Exclusão efetuada com sucesso!",
+                        "Info.",
+                        JOptionPane.INFORMATION_MESSAGE);
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    ex.getMessage(),
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void btnFirstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFirstActionPerformed
+        if (this._page == 1) {
+            return;
+        }
+
+        this._page = 1;
+
+        try {
+            this.loadTable();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    ex.getMessage(),
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnFirstActionPerformed
+
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        if (this._page == 1) {
+            return;
+        }
+
+        this._page--;
+
+        try {
+            this.loadTable();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    ex.getMessage(),
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnBackActionPerformed
+
+    private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
+        List<Permission> permissions = this._permissionBusiness.get();
+        int maxPage = (int) Math.round(permissions.size() / Double.parseDouble(this._qtdPerPage + ""));
+
+        if (this._page >= maxPage) {
+            return;
+        }
+
+        this._page++;
+
+        try {
+            this.loadTable();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    ex.getMessage(),
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnNextActionPerformed
+
+    private void btnLastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLastActionPerformed
+        try {
+            List<Permission> permissions = this._permissionBusiness.get();
+
+            this._page = (int) Math.round(permissions.size() / Double.parseDouble(this._qtdPerPage + ""));
+            this.loadTable();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    ex.getMessage(),
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnLastActionPerformed
+
+    private void clearControls() {
+        txtCode.setText("");
+        txtDescription.setText("");
+    }
+
+    private void loadTable() {
+        List<Permission> permissions = this._permissionBusiness.get();
+
+        if (permissions.size() > this._qtdPerPage) {
+            permissions = permissions.subList((this._page - 1) * this._qtdPerPage, this._qtdPerPage);
+        }
+
+        if (permissions != null) {
+            DefaultTableModel dtm = (DefaultTableModel) this.grPermissions.getModel();
+
+            while (dtm.getRowCount() > 0) {
+                dtm.removeRow(0);
+            }
+
+            for (Permission p : permissions) {
+                dtm.addRow(new Object[]{
+                    p.getCode(), p.getName()
+                });
+            }
+        }
+    }
+
+    private void valueRowChanged(ListSelectionEvent e) {
+        if (this.grPermissions.getSelectedRows() == null
+                || this.grPermissions.getSelectedRows().length == 0) {
+            return;
+        }
+
+        int selectedRow = this.grPermissions.getSelectedRows()[0];
+
+        this.txtCode.setText(this.grPermissions.getValueAt(selectedRow, 0).toString());
+        this.txtDescription.setText(this.grPermissions.getValueAt(selectedRow, 1).toString());
+
+        this.txtCode.setEnabled(false);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
+    private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnBack;
+    private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnEdit;
+    private javax.swing.JButton btnFirst;
+    private javax.swing.JButton btnLast;
+    private javax.swing.JButton btnNew;
+    private javax.swing.JButton btnNext;
+    private javax.swing.JTable grPermissions;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JPanel jpPermission;
+    private javax.swing.JTextField txtCode;
+    private javax.swing.JTextField txtDescription;
     // End of variables declaration//GEN-END:variables
 }

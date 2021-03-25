@@ -436,7 +436,7 @@ public class JPMatter extends javax.swing.JPanel {
                 //reset...
                 this.clearControls();
                 this.txtCode.setEnabled(false);
-                
+
                 //load table...
                 this.loadTable();
 

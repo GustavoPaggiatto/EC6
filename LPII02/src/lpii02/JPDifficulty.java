@@ -103,10 +103,10 @@ public class JPDifficulty extends javax.swing.JPanel {
         btnDelete = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         grDifficulties = new javax.swing.JTable();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
+        btnFirst = new javax.swing.JButton();
+        btnBack = new javax.swing.JButton();
+        btnNext = new javax.swing.JButton();
+        btnLast = new javax.swing.JButton();
         btnNew = new javax.swing.JButton();
 
         setName("JPDifficulty"); // NOI18N
@@ -147,10 +147,20 @@ public class JPDifficulty extends javax.swing.JPanel {
         btnEdit.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         btnEdit.setText("Editar");
         btnEdit.setName("btnEdit"); // NOI18N
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditActionPerformed(evt);
+            }
+        });
 
         btnDelete.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         btnDelete.setText("Excluir");
         btnDelete.setName("btnDelete"); // NOI18N
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
 
         grDifficulties.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         grDifficulties.setModel(new javax.swing.table.DefaultTableModel(
@@ -164,17 +174,37 @@ public class JPDifficulty extends javax.swing.JPanel {
         grDifficulties.setName("grDifficulties"); // NOI18N
         jScrollPane2.setViewportView(grDifficulties);
 
-        jButton4.setText("<<");
-        jButton4.setName("btnFirst"); // NOI18N
+        btnFirst.setText("<<");
+        btnFirst.setName("btnFirst"); // NOI18N
+        btnFirst.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFirstActionPerformed(evt);
+            }
+        });
 
-        jButton5.setText("<");
-        jButton5.setName("btnBack"); // NOI18N
+        btnBack.setText("<");
+        btnBack.setName("btnBack"); // NOI18N
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackActionPerformed(evt);
+            }
+        });
 
-        jButton6.setText(">");
-        jButton6.setName("btnNext"); // NOI18N
+        btnNext.setText(">");
+        btnNext.setName("btnNext"); // NOI18N
+        btnNext.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNextActionPerformed(evt);
+            }
+        });
 
-        jButton7.setText(">>");
-        jButton7.setName("btnLast"); // NOI18N
+        btnLast.setText(">>");
+        btnLast.setName("btnLast"); // NOI18N
+        btnLast.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLastActionPerformed(evt);
+            }
+        });
 
         btnNew.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         btnNew.setText("Novo");
@@ -190,13 +220,13 @@ public class JPDifficulty extends javax.swing.JPanel {
             jpDiffsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpDiffsLayout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jButton4)
+                .addComponent(btnFirst)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton5)
+                .addComponent(btnBack)
                 .addGap(10, 10, 10)
-                .addComponent(jButton6)
+                .addComponent(btnNext)
                 .addGap(10, 10, 10)
-                .addComponent(jButton7)
+                .addComponent(btnLast)
                 .addGap(20, 20, 20))
             .addGroup(jpDiffsLayout.createSequentialGroup()
                 .addGroup(jpDiffsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -246,10 +276,10 @@ public class JPDifficulty extends javax.swing.JPanel {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(5, 5, 5)
                 .addGroup(jpDiffsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton4)
-                    .addComponent(jButton5)
-                    .addComponent(jButton6)
-                    .addComponent(jButton7))
+                    .addComponent(btnFirst)
+                    .addComponent(btnBack)
+                    .addComponent(btnNext)
+                    .addComponent(btnLast))
                 .addGap(17, 17, 17))
         );
 
@@ -347,17 +377,158 @@ public class JPDifficulty extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnAddActionPerformed
 
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        try {
+            if (JOptionPane.showConfirmDialog(
+                    this,
+                    "Deseja realmente excluir a matéria?",
+                    "Confirmação",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE) == 0) {
+
+                //deleting model...
+                Difficulty model = this._difficultyBusiness.getByCode(Integer.parseInt(this.txtCode.getText()));
+
+                if (model != null) {
+                    this._difficultyBusiness.delete(model);
+                }
+
+                //reset...
+                this.clearControls();
+                this.txtCode.setEnabled(false);
+
+                //load table...
+                this.loadTable();
+
+                //message success...
+                JOptionPane.showMessageDialog(
+                        null,
+                        "Exclusão efetuada com sucesso!",
+                        "Info.",
+                        JOptionPane.INFORMATION_MESSAGE);
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    ex.getMessage(),
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+        try {
+            Difficulty matter = this._difficultyBusiness.getInstance();
+
+            matter.setCode(Integer.parseInt(txtCode.getText()));
+            matter.setDescription(txtName.getText());
+            this._difficultyBusiness.update(matter);
+
+            //reload table...
+            this.loadTable();
+
+            //reset...
+            this.clearControls();
+            this.txtCode.setEnabled(false);
+
+            //message success...
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Alteração efetuada com sucesso!",
+                    "Info.",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    ex.getMessage(),
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnEditActionPerformed
+
+    private void btnFirstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFirstActionPerformed
+        if (this._page == 1) {
+            return;
+        }
+
+        this._page = 1;
+
+        try {
+            this.loadTable();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    ex.getMessage(),
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnFirstActionPerformed
+
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        if (this._page == 1) {
+            return;
+        }
+
+        this._page--;
+
+        try {
+            this.loadTable();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    ex.getMessage(),
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnBackActionPerformed
+
+    private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
+        List<Difficulty> difficulties = this._difficultyBusiness.get();
+        int maxPage = (int) Math.round(difficulties.size() / Double.parseDouble(this._qtdPerPage + ""));
+
+        if (this._page >= maxPage) {
+            return;
+        }
+
+        this._page++;
+
+        try {
+            this.loadTable();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    ex.getMessage(),
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnNextActionPerformed
+
+    private void btnLastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLastActionPerformed
+        try {
+            List<Difficulty> matters = this._difficultyBusiness.get();
+
+            this._page = (int) Math.round(matters.size() / Double.parseDouble(this._qtdPerPage + ""));
+            this.loadTable();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    ex.getMessage(),
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnLastActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnBack;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnEdit;
+    private javax.swing.JButton btnFirst;
+    private javax.swing.JButton btnLast;
     private javax.swing.JButton btnNew;
+    private javax.swing.JButton btnNext;
     private javax.swing.JTable grDifficulties;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane2;
