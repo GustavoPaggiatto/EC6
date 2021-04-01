@@ -40,4 +40,9 @@ public class Difficulty extends BaseEntity {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    @Override
+    public String toString() {
+        return this.code + " - " + this.description;
+    }
 }

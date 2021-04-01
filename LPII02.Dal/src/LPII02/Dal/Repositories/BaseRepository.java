@@ -153,7 +153,7 @@ public abstract class BaseRepository<T> {
         }
     }
 
-    public T get(int id) {
+    public T get(int id, boolean closeSession) {
         try {
             if (!this._session.isOpen()) {
                 this._session = HibernateUtil.getSessionFactory().openSession();
@@ -170,7 +170,9 @@ public abstract class BaseRepository<T> {
         } catch (Exception ex) {
             throw ex;
         } finally {
-            this._session.close();
+            if (closeSession) {
+                this._session.close();
+            }
         }
     }
 
@@ -194,7 +196,7 @@ public abstract class BaseRepository<T> {
         }
     }
 
-    public List<T> get() {
+    public List<T> get(boolean closeSession) {
         try {
             if (!this._session.isOpen()) {
                 this._session = HibernateUtil.getSessionFactory().openSession();
@@ -205,7 +207,9 @@ public abstract class BaseRepository<T> {
         } catch (Exception ex) {
             throw ex;
         } finally {
-            this._session.close();
+            if (closeSession) {
+                this._session.close();
+            }
         }
     }
 }

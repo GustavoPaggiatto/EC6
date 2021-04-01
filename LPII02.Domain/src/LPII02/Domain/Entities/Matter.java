@@ -40,4 +40,9 @@ public class Matter extends BaseEntity {
     public void setCode(int code) {
         this.code = code;
     }
+
+    @Override
+    public String toString() {
+        return this.code + " - " + this.name;
+    }
 }

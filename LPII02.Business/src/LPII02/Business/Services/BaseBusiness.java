@@ -55,7 +55,7 @@ public abstract class BaseBusiness<T> {
     }
 
     public T get(int id) {
-        return this._repository.get(id);
+        return this._repository.get(id, true);
     }
 
     public List<T> get(int[] ids) {
@@ -63,6 +63,6 @@ public abstract class BaseBusiness<T> {
     }
 
     public List<T> get() {
-        return this._repository.get();
+        return this._repository.get(true);
     }
 }
