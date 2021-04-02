@@ -46,7 +46,7 @@ Contributor(s):
             <generator class="identity"/>
         </id>
         <property name="fileGuid" type="string">
-            <column name="fileGuid" not-null="true"/>
+            <column name="fileGuid" not-null="true"/>            
         </property>
         <property name="enunciated" type="string">
             <column name="enunciated" not-null="true"/>

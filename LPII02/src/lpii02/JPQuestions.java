@@ -12,26 +12,35 @@ import LPII02.Business.Services.QuestionBusiness;
 import LPII02.Domain.Entities.Difficulty;
 import LPII02.Domain.Entities.Matter;
 import LPII02.Domain.Entities.Question;
+import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-import java.util.Vector;
+import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
-import javax.swing.event.ListDataListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
 
 /**
  *
@@ -40,9 +49,12 @@ import javax.swing.table.TableCellRenderer;
 public class JPQuestions extends javax.swing.JPanel {
 
     private QuestionBusiness _qBusiness = new QuestionBusiness();
+    private BufferedImage _image = null;
+    private String _imgType = null;
     private int _page = 1;
     private int _qtdPerPage = 10;
     private boolean _loadPassed = false;
+    private Question _question = null;
 
     /**
      * Creates new form JPQuestions
@@ -93,6 +105,15 @@ public class JPQuestions extends javax.swing.JPanel {
         btnInsert = new javax.swing.JButton();
         btnEdit = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
+        btnImgPreview = new javax.swing.JButton();
+
+        jfImage.setApproveButtonText("OK");
+        jfImage.setApproveButtonToolTipText("OK");
+        jfImage.setDialogTitle("Selecione uma imagem");
+        FileFilter imageFilter = new FileNameExtensionFilter(
+            "Image files", ImageIO.getReaderFileSuffixes());
+
+        jfImage.setFileFilter(imageFilter);
 
         jpScroll.addHierarchyListener(new java.awt.event.HierarchyListener() {
             public void hierarchyChanged(java.awt.event.HierarchyEvent evt) {
@@ -133,6 +154,11 @@ public class JPQuestions extends javax.swing.JPanel {
 
         btnFindImage.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         btnFindImage.setText("Procurar");
+        btnFindImage.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFindImageActionPerformed(evt);
+            }
+        });
 
         txtFileImage.setEditable(false);
         txtFileImage.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
@@ -168,12 +194,27 @@ public class JPQuestions extends javax.swing.JPanel {
 
         btnNext.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         btnNext.setText(">");
+        btnNext.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNextActionPerformed(evt);
+            }
+        });
 
         btnBack.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         btnBack.setText("<");
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackActionPerformed(evt);
+            }
+        });
 
         btnFirst.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         btnFirst.setText("<<");
+        btnFirst.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFirstActionPerformed(evt);
+            }
+        });
 
         btnNew.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         btnNew.setText("Nova");
@@ -185,12 +226,34 @@ public class JPQuestions extends javax.swing.JPanel {
 
         btnInsert.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         btnInsert.setText("Cadastrar");
+        btnInsert.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInsertActionPerformed(evt);
+            }
+        });
 
         btnEdit.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         btnEdit.setText("Editar");
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditActionPerformed(evt);
+            }
+        });
 
         btnDelete.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         btnDelete.setText("Excluir");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
+
+        btnImgPreview.setText("jButton1");
+        btnImgPreview.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnImgPreviewActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jpScrollLayout = new javax.swing.GroupLayout(jpScroll);
         jpScroll.setLayout(jpScrollLayout);
@@ -199,7 +262,7 @@ public class JPQuestions extends javax.swing.JPanel {
             .addGroup(jpScrollLayout.createSequentialGroup()
                 .addGroup(jpScrollLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jpScrollLayout.createSequentialGroup()
-                        .addGroup(jpScrollLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jpScrollLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jpScrollLayout.createSequentialGroup()
                                 .addGroup(jpScrollLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jLabel2)
@@ -219,13 +282,14 @@ public class JPQuestions extends javax.swing.JPanel {
                                     .addComponent(cbMatters, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(cbDifficulties, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                             .addGroup(jpScrollLayout.createSequentialGroup()
-                                .addContainerGap()
                                 .addComponent(jLabel5)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnFindImage, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtFileImage)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                                .addComponent(btnFindImage, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtFileImage, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(3, 3, 3)
+                                .addComponent(btnImgPreview, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpScrollLayout.createSequentialGroup()
                         .addGap(0, 72, Short.MAX_VALUE)
                         .addComponent(btnNew)
@@ -276,9 +340,10 @@ public class JPQuestions extends javax.swing.JPanel {
                                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
                                 .addGroup(jpScrollLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel5)
+                                    .addComponent(btnFindImage, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(txtFileImage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnFindImage, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(btnImgPreview)
+                                    .addComponent(jLabel5)))
                             .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jpScrollLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -311,7 +376,18 @@ public class JPQuestions extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLastActionPerformed
-        // TODO add your handling code here:
+        try {
+            List<Question> questions = this._qBusiness.get();
+
+            this._page = (int) Math.round(questions.size() / Double.parseDouble(this._qtdPerPage + ""));
+            this.loadTable();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    ex.getMessage(),
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_btnLastActionPerformed
 
     private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
@@ -338,12 +414,244 @@ public class JPQuestions extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jpScrollHierarchyChanged
 
+    private void btnInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertActionPerformed
+        try {
+            Question model = this._qBusiness.getInstance();
+
+            model.setMatter((Matter) this.cbMatters.getSelectedItem());
+            model.setDifficulty((Difficulty) this.cbDifficulties.getSelectedItem());
+            model.setAnswer(this.taAnwser.getText());
+            model.setEnunciated(this.taEnunciated.getText());
+            model.setInsertDate(new Date());
+
+            if (this._image != null) {
+                ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+                ImageIO.write(this._image, this._imgType, outStream);
+                byte[] bytes = outStream.toByteArray();
+
+                model.setImage(bytes);
+            }
+
+            this._qBusiness.insert(model);
+
+            //reload table...
+            this.loadTable();
+
+            //reset...
+            this.clearControls();
+
+            //message success...
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Cadastro efetuado com sucesso!",
+                    "Info.",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    ex.getMessage(),
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnInsertActionPerformed
+
+    private void btnFindImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFindImageActionPerformed
+        if (this.jfImage.showOpenDialog(null) == jfImage.APPROVE_OPTION) {
+            File file = this.jfImage.getSelectedFile();
+
+            if (file != null) {
+                try {
+                    String[] parts = file.getPath().split("[.]");
+
+                    this._imgType = parts[parts.length - 1];
+                    this._image = ImageIO.read(file);
+                    this.txtFileImage.setText(file.getPath());
+                } catch (IOException ex) {
+                    JOptionPane.showMessageDialog(
+                            null,
+                            "Ocorreu um erro ao ler a imagem, tente novamente.",
+                            "Erro",
+                            JOptionPane.ERROR_MESSAGE);
+                }
+            } else {
+                this._image = null;
+                this._imgType = null;
+            }
+        }
+    }//GEN-LAST:event_btnFindImageActionPerformed
+
+    private void btnImgPreviewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImgPreviewActionPerformed
+        if (this._image != null) {
+            JFrame frame = new JFrame();
+            JPImage pImage = new JPImage(this._image);
+            Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+
+            frame.setLayout(new BorderLayout());
+            frame.add(pImage, BorderLayout.CENTER);
+            frame.pack();
+            frame.setLocation(dim.width / 2 - frame.getSize().width / 2, dim.height / 2 - frame.getSize().height / 2);
+            frame.setVisible(true);
+        }
+    }//GEN-LAST:event_btnImgPreviewActionPerformed
+
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+        try {
+            if (this._question == null) {
+                JOptionPane.showMessageDialog(
+                        null,
+                        "Nenhuma questão foi selecionada",
+                        "Atenção",
+                        JOptionPane.WARNING_MESSAGE);
+
+                return;
+            }
+
+            this._question.setMatter((Matter) this.cbMatters.getSelectedItem());
+            this._question.setDifficulty((Difficulty) this.cbDifficulties.getSelectedItem());
+            this._question.setAnswer(this.taAnwser.getText());
+            this._question.setEnunciated(this.taEnunciated.getText());
+
+            if (this._image != null && this._imgType != null) {
+                ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+                ImageIO.write(this._image, this._imgType, outStream);
+                byte[] bytes = outStream.toByteArray();
+
+                this._question.setImage(bytes);
+            }
+
+            this._qBusiness.update(this._question);
+
+            //reload table...
+            this.loadTable();
+
+            //reset...
+            this.clearControls();
+
+            //message success...
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Alteração efetuada com sucesso!",
+                    "Info.",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    ex.getMessage(),
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnEditActionPerformed
+
+    private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
+        List<Question> questions = this._qBusiness.get();
+        int maxPage = (int) Math.round(questions.size() / Double.parseDouble(this._qtdPerPage + ""));
+
+        if (this._page >= maxPage) {
+            return;
+        }
+
+        this._page++;
+
+        try {
+            this.loadTable();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    ex.getMessage(),
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnNextActionPerformed
+
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        if (this._page == 1) {
+            return;
+        }
+
+        this._page--;
+
+        try {
+            this.loadTable();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    ex.getMessage(),
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnBackActionPerformed
+
+    private void btnFirstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFirstActionPerformed
+        if (this._page == 1) {
+            return;
+        }
+
+        this._page = 1;
+
+        try {
+            this.loadTable();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    ex.getMessage(),
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnFirstActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        try {
+            if (this._question == null) {
+                JOptionPane.showMessageDialog(
+                        null,
+                        "Nenhuma questão foi selecionada",
+                        "Atenção",
+                        JOptionPane.WARNING_MESSAGE);
+
+                return;
+            }
+
+            if (JOptionPane.showConfirmDialog(
+                    this,
+                    "Deseja realmente excluir a questão?",
+                    "Confirmação",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE) == 0) {
+
+                //deleting model...
+                this._qBusiness.delete(this._question);
+
+                //reset...
+                this.clearControls();
+
+                //load table...
+                this.loadTable();
+
+                //message success...
+                JOptionPane.showMessageDialog(
+                        null,
+                        "Exclusão efetuada com sucesso!",
+                        "Info.",
+                        JOptionPane.INFORMATION_MESSAGE);
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    ex.getMessage(),
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
     private void clearControls() {
         this.cbMatters.setSelectedIndex(0);
         this.cbDifficulties.setSelectedIndex(0);
         this.taEnunciated.setText("");
         this.taAnwser.setText("");
         this.txtFileImage.setText("");
+        this._image = null;
+        this._imgType = null;
+        this._question = null;
     }
 
     private void loadTable() {
@@ -417,12 +725,12 @@ public class JPQuestions extends javax.swing.JPanel {
             return;
         }
         int selectedRow = this.grQuestions.getSelectedRows()[0];
-        Question question = this._qBusiness.get(Integer.parseInt(this.grQuestions.getValueAt(selectedRow, 0).toString()));
+        this._question = this._qBusiness.get(Integer.parseInt(this.grQuestions.getValueAt(selectedRow, 0).toString()));
 
-        if (question != null) {
+        if (this._question != null) {
             this.txtFileImage.setText("Carregamento via Base de Dados");
-            this.taAnwser.setText(question.getAnswer());
-            this.taEnunciated.setText(question.getEnunciated());
+            this.taAnwser.setText(this._question.getAnswer());
+            this.taEnunciated.setText(this._question.getEnunciated());
             ComboBoxModel<Matter> cbMatModel = this.cbMatters.getModel();
             ComboBoxModel<Difficulty> cbDifModel = this.cbDifficulties.getModel();
             int i = 0;
@@ -430,7 +738,7 @@ public class JPQuestions extends javax.swing.JPanel {
             for (; i < cbMatModel.getSize(); i++) {
                 Matter mi = cbMatModel.getElementAt(i);
 
-                if (mi.getId() == question.getMatter().getId()) {
+                if (mi.getId() == this._question.getMatter().getId()) {
                     this.cbMatters.setSelectedIndex(i);
                     break;
                 }
@@ -439,9 +747,21 @@ public class JPQuestions extends javax.swing.JPanel {
             for (i = 0; i < cbDifModel.getSize(); i++) {
                 Difficulty di = cbDifModel.getElementAt(i);
 
-                if (di.getId() == question.getDifficulty().getId()) {
+                if (di.getId() == this._question.getDifficulty().getId()) {
                     this.cbDifficulties.setSelectedIndex(i);
                     break;
+                }
+            }
+
+            if (this._question.getImage() != null) {
+                try {
+                    this._image = ImageIO.read(new ByteArrayInputStream(this._question.getImage()));
+                } catch (IOException ex) {
+                    JOptionPane.showMessageDialog(
+                            null,
+                            ex.getMessage(),
+                            "Ocorreu um erro ao montar a imagem...",
+                            JOptionPane.ERROR_MESSAGE);
                 }
             }
         }
@@ -453,6 +773,7 @@ public class JPQuestions extends javax.swing.JPanel {
     private javax.swing.JButton btnEdit;
     private javax.swing.JButton btnFindImage;
     private javax.swing.JButton btnFirst;
+    private javax.swing.JButton btnImgPreview;
     private javax.swing.JButton btnInsert;
     private javax.swing.JButton btnLast;
     private javax.swing.JButton btnNew;
