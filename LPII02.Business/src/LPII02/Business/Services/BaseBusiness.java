@@ -46,7 +46,7 @@ public abstract class BaseBusiness<T> {
         this._repository.update(models, true);
     }
 
-    public void delete(T model) {
+    public void delete(T model) throws Exception {
         this._repository.delete(model, true);
     }
 
