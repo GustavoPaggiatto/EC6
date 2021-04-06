@@ -106,6 +106,7 @@ public class JPQuestions extends javax.swing.JPanel {
         btnEdit = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
         btnImgPreview = new javax.swing.JButton();
+        btnAlternatives = new javax.swing.JButton();
 
         jfImage.setApproveButtonText("OK");
         jfImage.setApproveButtonToolTipText("OK");
@@ -168,11 +169,11 @@ public class JPQuestions extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Id", "Matéria", "Dificuldade", "Enunciado", "Alternativas"
+                "Id", "Matéria", "Dificuldade", "Enunciado"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -180,9 +181,6 @@ public class JPQuestions extends javax.swing.JPanel {
             }
         });
         jScrollPane3.setViewportView(grQuestions);
-        if (grQuestions.getColumnModel().getColumnCount() > 0) {
-            grQuestions.getColumnModel().getColumn(4).setMinWidth(100);
-        }
 
         btnLast.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         btnLast.setText(">>");
@@ -255,51 +253,58 @@ public class JPQuestions extends javax.swing.JPanel {
             }
         });
 
+        btnAlternatives.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        btnAlternatives.setText("Alternativas");
+        btnAlternatives.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAlternativesActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jpScrollLayout = new javax.swing.GroupLayout(jpScroll);
         jpScroll.setLayout(jpScrollLayout);
         jpScrollLayout.setHorizontalGroup(
             jpScrollLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpScrollLayout.createSequentialGroup()
-                .addGroup(jpScrollLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jpScrollLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jpScrollLayout.createSequentialGroup()
                         .addGroup(jpScrollLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jpScrollLayout.createSequentialGroup()
-                                .addGroup(jpScrollLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel2)
-                                    .addGroup(jpScrollLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpScrollLayout.createSequentialGroup()
-                                            .addGap(67, 67, 67)
-                                            .addComponent(jLabel1))
-                                        .addGroup(jpScrollLayout.createSequentialGroup()
-                                            .addGap(52, 52, 52)
-                                            .addGroup(jpScrollLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                .addComponent(jLabel4)
-                                                .addComponent(jLabel3)))))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jpScrollLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 317, Short.MAX_VALUE)
-                                    .addComponent(jScrollPane2)
-                                    .addComponent(cbMatters, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(cbDifficulties, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                            .addGroup(jpScrollLayout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnFindImage, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtFileImage, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(3, 3, 3)
-                                .addComponent(btnImgPreview, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpScrollLayout.createSequentialGroup()
-                        .addGap(0, 72, Short.MAX_VALUE)
-                        .addComponent(btnNew)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnInsert)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnEdit)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnDelete)
-                        .addGap(68, 68, 68)))
+                            .addComponent(jLabel2)
+                            .addGroup(jpScrollLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpScrollLayout.createSequentialGroup()
+                                    .addGap(67, 67, 67)
+                                    .addComponent(jLabel1))
+                                .addGroup(jpScrollLayout.createSequentialGroup()
+                                    .addGap(52, 52, 52)
+                                    .addGroup(jpScrollLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(jLabel4)
+                                        .addComponent(jLabel3)))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jpScrollLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 317, Short.MAX_VALUE)
+                            .addComponent(jScrollPane2)
+                            .addComponent(cbMatters, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cbDifficulties, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(jpScrollLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jpScrollLayout.createSequentialGroup()
+                            .addComponent(btnNew)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(btnInsert)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(btnEdit)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(btnDelete)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(btnAlternatives))
+                        .addGroup(jpScrollLayout.createSequentialGroup()
+                            .addComponent(jLabel5)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(btnFindImage, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(txtFileImage, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(3, 3, 3)
+                            .addComponent(btnImgPreview, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 9, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jpScrollLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -348,15 +353,16 @@ public class JPQuestions extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jpScrollLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jpScrollLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(btnLast)
+                                .addComponent(btnNext)
+                                .addComponent(btnBack))
+                            .addComponent(btnFirst)
+                            .addGroup(jpScrollLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(btnNew)
                                 .addComponent(btnInsert)
                                 .addComponent(btnEdit)
                                 .addComponent(btnDelete))
-                            .addGroup(jpScrollLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(btnLast)
-                                .addComponent(btnNext)
-                                .addComponent(btnBack))
-                            .addComponent(btnFirst))
+                            .addComponent(btnAlternatives))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -643,6 +649,29 @@ public class JPQuestions extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
+    private void btnAlternativesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlternativesActionPerformed
+        if (this._question == null) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Nenhuma questão selecionada.",
+                    "Atenção",
+                    JOptionPane.WARNING_MESSAGE);
+
+            return;
+        }
+
+        JFrame frame = new JFrame();
+        JPAlternative pAlts = new JPAlternative(this._question);
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+
+        frame.setLayout(new BorderLayout());
+        frame.add(pAlts, BorderLayout.CENTER);
+        frame.pack();
+
+        frame.setLocation(dim.width / 2 - frame.getSize().width / 2, dim.height / 2 - frame.getSize().height / 2);
+        frame.setVisible(true);
+    }//GEN-LAST:event_btnAlternativesActionPerformed
+
     private void clearControls() {
         this.cbMatters.setSelectedIndex(0);
         this.cbDifficulties.setSelectedIndex(0);
@@ -668,24 +697,14 @@ public class JPQuestions extends javax.swing.JPanel {
                 dtm.removeRow(0);
             }
 
-            Action act = new AbstractAction() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    //open alternatives jPanel...
-                }
-            };
-
             for (Question q : questions) {
                 dtm.addRow(new Object[]{
                     q.getId(),
                     q.getMatter().getName(),
                     q.getDifficulty().getDescription(),
-                    q.getEnunciated(),
-                    "Alternativas"
+                    q.getEnunciated()
                 });
             }
-
-            ButtonColumn btnColumn = new ButtonColumn(grQuestions, act, 4);
         }
     }
 
@@ -768,6 +787,7 @@ public class JPQuestions extends javax.swing.JPanel {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAlternatives;
     private javax.swing.JButton btnBack;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnEdit;
