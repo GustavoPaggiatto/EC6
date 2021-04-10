@@ -74,6 +74,9 @@ public class JFMain extends javax.swing.JFrame {
         jMenuItem7 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem8 = new javax.swing.JMenuItem();
+        jMenu5 = new javax.swing.JMenu();
+        jMenuItem9 = new javax.swing.JMenuItem();
+        jMenuItem10 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
 
         label1.setText("label1");
@@ -98,7 +101,7 @@ public class JFMain extends javax.swing.JFrame {
         );
         jDesktopPane1Layout.setVerticalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 500, Short.MAX_VALUE)
+            .addGap(0, 502, Short.MAX_VALUE)
         );
 
         jMenuBar1.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
@@ -197,6 +200,24 @@ public class JFMain extends javax.swing.JFrame {
         jMenu3.add(jMenuItem8);
 
         jMenuBar1.add(jMenu3);
+
+        jMenu5.setText("Cursos");
+        jMenu5.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+
+        jMenuItem9.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        jMenuItem9.setText("Cadastro");
+        jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem9ActionPerformed(evt);
+            }
+        });
+        jMenu5.add(jMenuItem9);
+
+        jMenuItem10.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        jMenuItem10.setText("Disponibilidades");
+        jMenu5.add(jMenuItem10);
+
+        jMenuBar1.add(jMenu5);
 
         jMenu4.setText("Fóruns");
         jMenu4.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
@@ -322,6 +343,23 @@ public class JFMain extends javax.swing.JFrame {
         internalFrame.setVisible(true);
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
+    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
+        JInternalFrame internalFrame = new JInternalFrame("Cursos",
+                true,
+                true,
+                true,
+                true);
+
+        Container container = internalFrame.getContentPane();
+        JPCourse frame = new JPCourse();
+
+        container.add(frame, BorderLayout.CENTER);
+        internalFrame.pack();
+
+        this.jDesktopPane1.add(internalFrame);
+        internalFrame.setVisible(true);
+    }//GEN-LAST:event_jMenuItem9ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -364,8 +402,10 @@ public class JFMain extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem10;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
@@ -373,6 +413,7 @@ public class JFMain extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem8;
+    private javax.swing.JMenuItem jMenuItem9;
     private java.awt.Label label1;
     // End of variables declaration//GEN-END:variables
 }
