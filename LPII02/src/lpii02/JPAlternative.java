@@ -143,6 +143,11 @@ public class JPAlternative extends javax.swing.JPanel {
 
         btnDelete.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         btnDelete.setText("Excluir");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         jLabel1.setText("Código da Questão:");
@@ -350,6 +355,36 @@ public class JPAlternative extends javax.swing.JPanel {
                     JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        try {
+            Alternative alt = this._aBusiness.getInstance();
+
+            alt.setId(Integer.parseInt(this.txtIdAlternative.getText()));
+            alt.setQuestion(this._question);
+
+            this._aBusiness.delete(alt);
+
+            //reload table...
+            this.loadTable();
+
+            //reset...
+            this.clearControls();
+
+            //message success...
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Exclusão efetuada com sucesso!",
+                    "Info.",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    ex.getMessage(),
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void clearControls() {
         this.txtIdAlternative.setText("0");
