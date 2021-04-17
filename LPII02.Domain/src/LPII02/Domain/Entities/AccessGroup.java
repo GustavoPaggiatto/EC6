@@ -5,6 +5,8 @@
  */
 package LPII02.Domain.Entities;
 
+import java.util.Set;
+
 /**
  *
  * @author Gustavo
@@ -12,8 +14,17 @@ package LPII02.Domain.Entities;
 public class AccessGroup extends BaseEntity {
 
     private String name;
-    private String Description;
+    private String description;
+    private Set<User> users;
 
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
+    }
+   
     public String getName() {
         return name;
     }
@@ -23,10 +34,10 @@ public class AccessGroup extends BaseEntity {
     }
 
     public String getDescription() {
-        return Description;
+        return description;
     }
 
     public void setDescription(String Description) {
-        this.Description = Description;
+        this.description = Description;
     }
 }

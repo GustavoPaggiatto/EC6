@@ -53,5 +53,9 @@ Contributor(s):
         </property>
         <many-to-one name="matter" class="LPII02.Domain.Entities.Matter" column="matterId" not-null="true"/>
         <many-to-one name="teacher" class="LPII02.Domain.Entities.Teacher" column="teacherId" not-null="true"/>
+        <set name="lessons" inverse="true" cascade="all">
+            <key column="courseId" not-null="false" />
+            <one-to-many class="LPII02.Domain.Entities.Lesson"/>
+        </set>
     </class>
 </hibernate-mapping>

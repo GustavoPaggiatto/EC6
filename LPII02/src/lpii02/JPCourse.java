@@ -5,17 +5,53 @@
  */
 package lpii02;
 
+import LPII02.Business.Services.CourseBusiness;
+import LPII02.Business.Services.LessonBusiness;
+import LPII02.Business.Services.MatterBusiness;
+import LPII02.Business.Services.TeacherBusiness;
+import LPII02.Domain.Entities.Course;
+import LPII02.Domain.Entities.Matter;
+import LPII02.Domain.Entities.Teacher;
+import LPII02.Domain.Entities.Lesson;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.text.MaskFormatter;
+
 /**
  *
  * @author Gustavo
  */
 public class JPCourse extends javax.swing.JPanel {
 
+    private boolean _loadPassed = false;
+    private CourseBusiness _coBusiness = new CourseBusiness();
+    private int _page = 0;
+    private int _qtdPerPage = 10;
+    private Course _course = null;
+
     /**
      * Creates new form JPCourse
      */
     public JPCourse() {
         initComponents();
+
+        this.grCourses.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                valueRowChanged(e);
+            }
+        });
     }
 
     /**
@@ -29,12 +65,11 @@ public class JPCourse extends javax.swing.JPanel {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        cbMatters = new javax.swing.JComboBox<>();
-        cbTeacher = new javax.swing.JComboBox<>();
+        cbMatters = new javax.swing.JComboBox<Matter>();
+        cbTeacher = new javax.swing.JComboBox<Teacher>();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         txtName = new javax.swing.JTextField();
-        txtDuration = new javax.swing.JFormattedTextField();
         btnNew = new javax.swing.JButton();
         btnInsert = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
@@ -47,6 +82,13 @@ public class JPCourse extends javax.swing.JPanel {
         btnNext = new javax.swing.JButton();
         btnBack = new javax.swing.JButton();
         btnFirst = new javax.swing.JButton();
+        txtDuration = new javax.swing.JTextField();
+
+        addHierarchyListener(new java.awt.event.HierarchyListener() {
+            public void hierarchyChanged(java.awt.event.HierarchyEvent evt) {
+                formHierarchyChanged(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         jLabel1.setText("Matéria:");
@@ -66,20 +108,37 @@ public class JPCourse extends javax.swing.JPanel {
 
         txtName.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
 
-        txtDuration.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT))));
-        txtDuration.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-
         btnNew.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         btnNew.setText("Novo");
+        btnNew.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNewActionPerformed(evt);
+            }
+        });
 
         btnInsert.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         btnInsert.setText("Cadastrar");
+        btnInsert.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInsertActionPerformed(evt);
+            }
+        });
 
         btnUpdate.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         btnUpdate.setText("Alterar");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
 
         btnDelete.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         btnDelete.setText("Excluir");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
 
         btnLessons.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         btnLessons.setText("Aulas");
@@ -106,15 +165,37 @@ public class JPCourse extends javax.swing.JPanel {
 
         btnLast.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         btnLast.setText(">>");
+        btnLast.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLastActionPerformed(evt);
+            }
+        });
 
         btnNext.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         btnNext.setText(">");
+        btnNext.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNextActionPerformed(evt);
+            }
+        });
 
         btnBack.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         btnBack.setText("<");
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackActionPerformed(evt);
+            }
+        });
 
         btnFirst.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         btnFirst.setText("<<");
+        btnFirst.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFirstActionPerformed(evt);
+            }
+        });
+
+        txtDuration.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -130,12 +211,11 @@ public class JPCourse extends javax.swing.JPanel {
                             .addComponent(jLabel2)
                             .addComponent(jLabel1))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(cbTeacher, 0, 321, Short.MAX_VALUE)
-                                .addComponent(txtName)
-                                .addComponent(cbMatters, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(txtDuration, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(cbTeacher, 0, 321, Short.MAX_VALUE)
+                            .addComponent(txtName)
+                            .addComponent(cbMatters, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtDuration, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnNew)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -207,6 +287,425 @@ public class JPCourse extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void loadTable() {
+        List<Course> courses = this._coBusiness.get();
+        LessonBusiness lBusiness = new LessonBusiness();
+
+        if (courses.size() > this._qtdPerPage) {
+            courses = courses.subList((this._page - 1) * this._qtdPerPage, this._qtdPerPage);
+        }
+
+        if (courses != null) {
+            DefaultTableModel dtm = (DefaultTableModel) this.grCourses.getModel();
+
+            while (dtm.getRowCount() > 0) {
+                dtm.removeRow(0);
+            }
+
+            for (Course c : courses) {
+                List<Lesson> lessons = null;
+
+                try {
+                    lessons = lBusiness.getByCourse(c);
+                } catch (Exception ex) {
+                    //nothing...
+                }
+
+                dtm.addRow(new Object[]{
+                    c.getId(),
+                    c.getName(),
+                    this._coBusiness.formatDuration(c.getDuration()),
+                    (lessons == null ? 0 : lessons.size())
+                });
+            }
+        }
+    }
+
+    private void loadMatters() throws InstantiationException, IllegalAccessException {
+        MatterBusiness mBusiness = new MatterBusiness();
+        ArrayList<Matter> matters = new ArrayList<Matter>();
+        Matter mDefault = mBusiness.getInstance();
+
+        mDefault.setId(0);
+        mDefault.setCode(0);
+        mDefault.setName("Selecione");
+
+        matters.add(mDefault);
+        matters.addAll(mBusiness.get());
+
+        //load combo...
+        DefaultComboBoxModel<Matter> cbModel = new DefaultComboBoxModel<Matter>(matters.toArray(new Matter[]{}));
+        this.cbMatters.setModel(cbModel);
+
+        //select default (Selecione)...
+        cbModel.setSelectedItem(mDefault);
+    }
+
+    private void loadTeachers() throws InstantiationException, IllegalAccessException {
+        TeacherBusiness tBusiness = new TeacherBusiness();
+        ArrayList<Teacher> teachers = new ArrayList<Teacher>();
+        Teacher tDefault = tBusiness.getInstance();
+
+        tDefault.setId(0);
+        tDefault.setName("Selecione");
+
+        teachers.add(tDefault);
+        teachers.addAll(tBusiness.get());
+
+        DefaultComboBoxModel<Teacher> cbModel = new DefaultComboBoxModel<Teacher>(teachers.toArray(new Teacher[]{}));
+
+        this.cbTeacher.setModel(cbModel);
+
+        //select default (Selecione)...
+        cbModel.setSelectedItem(tDefault);
+    }
+
+    private void clearControls() {
+        this.cbMatters.setSelectedIndex(0);
+        this.cbTeacher.setSelectedIndex(0);
+        this.txtName.setText("");
+        this.txtDuration.setText("");
+        this._course = null;
+    }
+
+    private void valueRowChanged(ListSelectionEvent e) {
+        if (this.grCourses.getSelectedRows() == null
+                || this.grCourses.getSelectedRows().length == 0) {
+            return;
+        }
+
+        int selectedRow = this.grCourses.getSelectedRows()[0];
+        int courseId = Integer.parseInt(this.grCourses.getValueAt(selectedRow, 0).toString());
+
+        try {
+            this._course = this._coBusiness.get(courseId);
+
+            if (this._course != null) {
+                this.txtName.setText(this._course.getName());
+                this.txtDuration.setText(this._coBusiness.formatDuration(this._course.getDuration()));
+                ComboBoxModel<Matter> matterModel = this.cbMatters.getModel();
+                ComboBoxModel<Teacher> teacherModel = this.cbTeacher.getModel();
+
+                int i = 0;
+
+                for (; i < matterModel.getSize(); i++) {
+                    Matter mi = matterModel.getElementAt(i);
+
+                    if (mi.getId() == this._course.getMatter().getId()) {
+                        this.cbMatters.setSelectedIndex(i);
+                        break;
+                    }
+                }
+
+                i = 0;
+
+                for (; i < teacherModel.getSize(); i++) {
+                    Teacher ti = teacherModel.getElementAt(i);
+
+                    if (ti.getId() == this._course.getTeacher().getId()) {
+                        this.cbTeacher.setSelectedIndex(i);
+                        break;
+                    }
+                }
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Ocorreu um erro ao carregar as informações do curso selecionado, tente novamente.",
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void formHierarchyChanged(java.awt.event.HierarchyEvent evt) {//GEN-FIRST:event_formHierarchyChanged
+        if (this._loadPassed) {
+            return;
+        }
+
+        try {
+            this.loadTable();
+            this.loadMatters();
+            this.loadTeachers();
+
+            this._loadPassed = true;
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Ocorreu um erro ao carregar os cursos, tente novamente.",
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_formHierarchyChanged
+
+    private void btnFirstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFirstActionPerformed
+        if (this._page == 1) {
+            return;
+        }
+
+        this._page = 1;
+
+        try {
+            this.loadTable();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    ex.getMessage(),
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnFirstActionPerformed
+
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        if (this._page == 1) {
+            return;
+        }
+
+        this._page--;
+
+        try {
+            this.loadTable();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    ex.getMessage(),
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnBackActionPerformed
+
+    private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
+        List<Course> courses = this._coBusiness.get();
+        int maxPage = (int) Math.round(courses.size() / Double.parseDouble(this._qtdPerPage + ""));
+
+        if (this._page >= maxPage) {
+            return;
+        }
+
+        this._page++;
+
+        try {
+            this.loadTable();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    ex.getMessage(),
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnNextActionPerformed
+
+    private void btnLastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLastActionPerformed
+        try {
+            List<Course> courses = this._coBusiness.get();
+
+            this._page = (int) Math.round(courses.size() / Double.parseDouble(this._qtdPerPage + ""));
+
+            this.loadTable();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    ex.getMessage(),
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnLastActionPerformed
+
+    private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
+        this.clearControls();
+    }//GEN-LAST:event_btnNewActionPerformed
+
+    private void btnInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertActionPerformed
+        try {
+            Course course = this._coBusiness.getInstance();
+
+            course.setMatter((Matter) this.cbMatters.getSelectedItem());
+            course.setTeacher((Teacher) this.cbTeacher.getSelectedItem());
+            course.setName(this.txtName.getText().trim());
+
+            if (this.txtDuration.getText().trim().length() == 0) {
+                JOptionPane.showMessageDialog(
+                        null,
+                        "A duração não foi informada.",
+                        "Atenção",
+                        JOptionPane.WARNING_MESSAGE);
+
+                return;
+            }
+
+            Pattern pattern = Pattern.compile("[^0-9:]", Pattern.CASE_INSENSITIVE);
+            Matcher matcher = pattern.matcher(this.txtDuration.getText());
+
+            if (matcher.find()) {
+                //show message warning...
+                JOptionPane.showMessageDialog(
+                        null,
+                        "A duração deve conter apenas números no formado HH:MM (Ex.: 10:30; 100:00 etc).",
+                        "Atenção",
+                        JOptionPane.WARNING_MESSAGE);
+
+                return;
+            }
+
+            pattern = Pattern.compile("^\\d{2}[:]\\d{2}$", Pattern.CASE_INSENSITIVE);
+            matcher = pattern.matcher(this.txtDuration.getText());
+
+            if (!matcher.find()) {
+                JOptionPane.showMessageDialog(
+                        null,
+                        "A duração deve conter apenas horas e minutos no formato HH:MM (Ex.: 10:30; 100:00 etc).",
+                        "Atenção",
+                        JOptionPane.WARNING_MESSAGE);
+
+                return;
+            }
+
+            course.setDuration(Integer.parseInt(this.txtDuration.getText().replaceAll(":", "")));
+
+            this._coBusiness.insert(course);
+
+            //reload table...
+            this.loadTable();
+
+            //reset...
+            this.clearControls();
+
+            //message success...
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Cadastro efetuado com sucesso!",
+                    "Info.",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    ex.getMessage(),
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnInsertActionPerformed
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        try {
+            if (this._course == null) {
+                JOptionPane.showMessageDialog(
+                        null,
+                        "Nenhum curso seleciona para alteração.",
+                        "Atenção",
+                        JOptionPane.WARNING_MESSAGE);
+
+                return;
+            }
+
+            this._course.setMatter((Matter) this.cbMatters.getSelectedItem());
+            this._course.setTeacher((Teacher) this.cbTeacher.getSelectedItem());
+            this._course.setName(this.txtName.getText().trim());
+
+            if (this.txtDuration.getText().trim().length() == 0) {
+                JOptionPane.showMessageDialog(
+                        null,
+                        "A duração não foi informada.",
+                        "Atenção",
+                        JOptionPane.WARNING_MESSAGE);
+
+                return;
+            }
+
+            Pattern pattern = Pattern.compile("[^0-9:]", Pattern.CASE_INSENSITIVE);
+            Matcher matcher = pattern.matcher(this.txtDuration.getText());
+
+            if (matcher.find()) {
+                //show message warning...
+                JOptionPane.showMessageDialog(
+                        null,
+                        "A duração deve conter apenas números no formado HH:MM (Ex.: 10:30; 100:00 etc).",
+                        "Atenção",
+                        JOptionPane.WARNING_MESSAGE);
+
+                return;
+            }
+
+            pattern = Pattern.compile("^\\d{2}[:]\\d{2}$", Pattern.CASE_INSENSITIVE);
+            matcher = pattern.matcher(this.txtDuration.getText());
+
+            if (!matcher.find()) {
+                JOptionPane.showMessageDialog(
+                        null,
+                        "A duração deve conter apenas horas e minutos no formato HH:MM (Ex.: 10:30; 100:00 etc).",
+                        "Atenção",
+                        JOptionPane.WARNING_MESSAGE);
+
+                return;
+            }
+
+            this._course.setDuration(Integer.parseInt(this.txtDuration.getText().replaceAll(":", "")));
+
+            this._coBusiness.update(this._course);
+
+            //reload table...
+            this.loadTable();
+
+            //reset...
+            this.clearControls();
+
+            //message success...
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Alteração efetuada com sucesso!",
+                    "Info.",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    ex.getMessage(),
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        try {
+            if (this._course == null) {
+                JOptionPane.showMessageDialog(
+                        null,
+                        "Nenhum curso foi selecionado",
+                        "Atenção",
+                        JOptionPane.WARNING_MESSAGE);
+
+                return;
+            }
+
+            if (JOptionPane.showConfirmDialog(
+                    this,
+                    "Deseja realmente excluir o curso?",
+                    "Confirmação",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE) == 0) {
+
+                //deleting model...
+                this._coBusiness.delete(this._course);
+
+                //reset...
+                this.clearControls();
+
+                //load table...
+                this.loadTable();
+
+                //message success...
+                JOptionPane.showMessageDialog(
+                        null,
+                        "Exclusão efetuada com sucesso!",
+                        "Info.",
+                        JOptionPane.INFORMATION_MESSAGE);
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    ex.getMessage(),
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBack;
@@ -218,8 +717,8 @@ public class JPCourse extends javax.swing.JPanel {
     private javax.swing.JButton btnNew;
     private javax.swing.JButton btnNext;
     private javax.swing.JButton btnUpdate;
-    private javax.swing.JComboBox<String> cbMatters;
-    private javax.swing.JComboBox<String> cbTeacher;
+    private javax.swing.JComboBox<Matter> cbMatters;
+    private javax.swing.JComboBox<Teacher> cbTeacher;
     private javax.swing.JTable grCourses;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -227,7 +726,7 @@ public class JPCourse extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JFormattedTextField txtDuration;
+    private javax.swing.JTextField txtDuration;
     private javax.swing.JTextField txtName;
     // End of variables declaration//GEN-END:variables
 }

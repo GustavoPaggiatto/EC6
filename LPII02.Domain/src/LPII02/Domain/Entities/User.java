@@ -11,32 +11,58 @@ package LPII02.Domain.Entities;
  */
 public class User extends BaseEntity {
 
-    protected String _name;
-    protected String _login;
-    protected String _password;
-    protected byte[] _avatar;
+    protected String avatarGuid;
+    protected String name;
+    protected String login;
+    protected String password;
+    protected byte[] avatar;
+    protected AccessGroup accessGroup;
 
-    public String getName() {
-        return _name;
+    public String getAvatarGuid() {
+        return avatarGuid;
     }
 
-    public void setName(String _name) {
-        this._name = _name;
+    public void setAvatarGuid(String avatarGuid) {
+        this.avatarGuid = avatarGuid;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
     }
 
     public String getPassword() {
-        return _password;
+        return password;
     }
 
-    public void setPassword(String _password) {
-        this._password = _password;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public byte[] getAvatar() {
-        return _avatar;
+        return avatar;
     }
 
-    public void setAvatar(byte[] _avatar) {
-        this._avatar = _avatar;
+    public void setAvatar(byte[] avatar) {
+        this.avatar = avatar;
+    }
+
+    public AccessGroup getAccessGroup() {
+        return accessGroup;
+    }
+
+    public void setAccessGroup(AccessGroup accessGroup) {
+        this.accessGroup = accessGroup;
     }
 }

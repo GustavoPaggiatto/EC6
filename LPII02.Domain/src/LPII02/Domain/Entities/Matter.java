@@ -16,6 +16,15 @@ public class Matter extends BaseEntity {
     protected String name;
     protected int code;
     private Set<Question> questions;
+    private Set<Course> courses;
+
+    public Set<Course> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(Set<Course> courses) {
+        this.courses = courses;
+    }
 
     public Set<Question> getQuestions() {
         return questions;

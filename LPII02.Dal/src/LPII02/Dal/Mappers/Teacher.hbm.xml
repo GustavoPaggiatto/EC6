@@ -40,20 +40,23 @@ made subject to such option by the copyright holder.
 Contributor(s):
 -->
 <hibernate-mapping>
-    <class name="LPII02.Domain.Entities.AccessGroup" table="AccessGroup">
+    <class name="LPII02.Domain.Entities.Teacher" table="Teacher">
         <id name="id" type="int">
             <column name="id"/>
             <generator class="identity"/>
         </id>
-        <property name="name" type="string">
-            <column name="name" length="100" not-null="true"/>
+        <property name="userId" type="int">
+            <column name="userId" not-null="true"/>       
         </property>
-        <property name="description" type="string">
-            <column name="description" length="300" not-null="true" />
+        <property name="lastDegree" type="string">
+            <column name="lastDegree" not-null="true"/>       
         </property>
-        <set name="users" inverse="true" cascade="all">
-            <key column="accessGroupId" not-null="true" />
-            <one-to-many class="LPII02.Domain.Entities.User"/>
+        <property name="expecialization" type="string">
+            <column name="expecialization" not-null="true"/>       
+        </property>
+        <set name="courses" inverse="true" cascade="all">
+            <key column="teacherId" not-null="true" />
+            <one-to-many class="LPII02.Domain.Entities.Course"/>
         </set>
     </class>
 </hibernate-mapping>

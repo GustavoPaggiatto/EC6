@@ -55,5 +55,8 @@ Contributor(s):
     <mapping resource="LPII02/Dal/Mappers/TestQuestion.hbm.xml"/>
     <mapping resource="LPII02/Dal/Mappers/Test.hbm.xml"/>
     <mapping resource="LPII02/Dal/Mappers/Course.xml"/>
+    <mapping resource="LPII02/Dal/Mappers/Teacher.hbm.xml"/>
+    <mapping resource="LPII02/Dal/Mappers/User.hbm.xml"/>
+    <mapping resource="LPII02/Dal/Mappers/Lesson.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

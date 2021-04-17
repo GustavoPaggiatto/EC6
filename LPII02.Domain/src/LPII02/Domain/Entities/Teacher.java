@@ -6,6 +6,7 @@
 package LPII02.Domain.Entities;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  *
@@ -13,31 +14,45 @@ import java.util.List;
  */
 public class Teacher extends User {
 
-    protected List<Matter> _matters;
-    protected String _lastDegree;
-    protected String _expecialization;
+    private int userId;
+    private String lastDegree;
+    private String expecialization;
+    private Set<Course> courses;
 
-    public List<Matter> getMatters() {
-        return this._matters;
+    public Set<Course> getCourses() {
+        return courses;
     }
 
-    public void setMatters(List<Matter> matters) {
-        this._matters = matters;
+    public void setCourses(Set<Course> courses) {
+        this.courses = courses;
+    }
+
+    public int getUserId() {
+        return this.userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public String getLastDegree() {
-        return _lastDegree;
+        return lastDegree;
     }
 
-    public void setLastDegree(String _lastDegree) {
-        this._lastDegree = _lastDegree;
+    public void setLastDegree(String lastDegree) {
+        this.lastDegree = lastDegree;
     }
 
     public String getExpecialization() {
-        return this._expecialization;
+        return this.expecialization;
     }
 
     public void setExpecialization(String expecialization) {
-        this._expecialization = expecialization;
+        this.expecialization = expecialization;
+    }
+
+    @Override
+    public String toString() {
+        return this._id + " - " + this.name;
     }
 }

@@ -40,20 +40,26 @@ made subject to such option by the copyright holder.
 Contributor(s):
 -->
 <hibernate-mapping>
-    <class name="LPII02.Domain.Entities.AccessGroup" table="AccessGroup">
+    <class name="LPII02.Domain.Entities.User" table="[User]">
         <id name="id" type="int">
             <column name="id"/>
             <generator class="identity"/>
         </id>
+        <property name="avatarGuid" type="string">
+            <column name="avatarGuid" not-null="true"/>            
+        </property>
         <property name="name" type="string">
-            <column name="name" length="100" not-null="true"/>
+            <column name="name" not-null="true"/>            
         </property>
-        <property name="description" type="string">
-            <column name="description" length="300" not-null="true" />
+        <property name="login" type="string">
+            <column name="login" not-null="true"/>            
         </property>
-        <set name="users" inverse="true" cascade="all">
-            <key column="accessGroupId" not-null="true" />
-            <one-to-many class="LPII02.Domain.Entities.User"/>
-        </set>
+        <property name="password" type="string">
+            <column name="password" not-null="true"/>            
+        </property>
+        <property name="avatar" type="byte[]">
+            <column name="avatar" not-null="false"/>            
+        </property>
+        <many-to-one name="accessGroup" class="LPII02.Domain.Entities.AccessGroup" column="accessGroupId" not-null="true"/>
     </class>
 </hibernate-mapping>

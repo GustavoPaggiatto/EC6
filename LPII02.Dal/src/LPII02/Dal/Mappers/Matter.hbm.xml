@@ -55,5 +55,9 @@ Contributor(s):
             <key column="matterId" not-null="true" />
             <one-to-many class="LPII02.Domain.Entities.Question"/>
         </set>
+        <set name="courses" inverse="true" cascade="all">
+            <key column="matterId" not-null="true" />
+            <one-to-many class="LPII02.Domain.Entities.Course"/>
+        </set>
     </class>
 </hibernate-mapping>
