@@ -114,6 +114,11 @@ public class JFMain extends javax.swing.JFrame {
         jMenuItem2.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         jMenuItem2.setText("Perfil");
         jMenuItem2.setName("imPerfil"); // NOI18N
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem2);
 
         jMenuItem1.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
@@ -359,6 +364,13 @@ public class JFMain extends javax.swing.JFrame {
         this.jDesktopPane1.add(internalFrame);
         internalFrame.setVisible(true);
     }//GEN-LAST:event_jMenuItem9ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // TODO add your handling code here:
+        JFProfile profile = new JFProfile();
+        profile.setVisible(true);
+        jDesktopPane1.add(profile);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     /**
      * @param args the command line arguments
