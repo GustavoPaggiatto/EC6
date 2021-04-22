@@ -5,11 +5,22 @@
  */
 package lpii02;
 
+import LPII02.Business.Services.AccessGroupBusiness;
+import LPII02.Business.Services.UserBusiness;
+import LPII02.Domain.Entities.AccessGroup;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Eleni Oliveira
  */
 public class JFProfile extends javax.swing.JInternalFrame {
+
+    private UserBusiness _userBusiness = new UserBusiness();
+    private boolean _isLoad = false;
 
     /**
      * Creates new form JFProfile
@@ -36,7 +47,7 @@ public class JFProfile extends javax.swing.JInternalFrame {
         txtPerNome = new javax.swing.JTextField();
         txtPerLogin = new javax.swing.JTextField();
         txtPerSenha = new javax.swing.JTextField();
-        txtPerGAcesso = new javax.swing.JComboBox<>();
+        txtPerGAcesso = new javax.swing.JComboBox<AccessGroup>();
         lblPerAvatar = new javax.swing.JLabel();
         lblPerAvatarImg = new javax.swing.JLabel();
         btnAdd = new javax.swing.JButton();
@@ -49,6 +60,11 @@ public class JFProfile extends javax.swing.JInternalFrame {
         setMaximizable(true);
         setTitle("Perfil de Usuário");
         setPreferredSize(new java.awt.Dimension(1228, 502));
+        addHierarchyListener(new java.awt.event.HierarchyListener() {
+            public void hierarchyChanged(java.awt.event.HierarchyEvent evt) {
+                formHierarchyChanged(evt);
+            }
+        });
 
         lblPerCod.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         lblPerCod.setText("Código:");
@@ -66,7 +82,6 @@ public class JFProfile extends javax.swing.JInternalFrame {
         lblPerGAcesso.setText("Grupo de Acesso:");
 
         txtPerGAcesso.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
-        txtPerGAcesso.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         lblPerAvatar.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         lblPerAvatar.setText("Avatar:");
@@ -109,9 +124,8 @@ public class JFProfile extends javax.swing.JInternalFrame {
                             .addComponent(txtPerGAcesso, 0, 291, Short.MAX_VALUE))
                         .addGap(138, 138, 138)
                         .addComponent(lblPerAvatar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
-                        .addComponent(lblPerAvatarImg, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(228, 228, 228))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblPerAvatarImg, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnAdd)
                         .addGap(33, 33, 33)
@@ -119,8 +133,8 @@ public class JFProfile extends javax.swing.JInternalFrame {
                         .addGap(39, 39, 39)
                         .addComponent(btnAlterar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(32, 32, 32)
-                        .addComponent(btnRemover, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(btnRemover, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(282, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -162,6 +176,35 @@ public class JFProfile extends javax.swing.JInternalFrame {
         setBounds(0, 0, 1228, 502);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void loadGroups() throws InstantiationException, IllegalAccessException {
+        AccessGroupBusiness acBusiness = new AccessGroupBusiness();
+        List<AccessGroup> groups = new ArrayList<AccessGroup>();
+        AccessGroup ag = acBusiness.getInstance();
+
+        ag.setId(0);
+        ag.setName("Selecione");
+
+        groups.add(ag);
+        groups.addAll(acBusiness.get());
+
+        DefaultComboBoxModel<AccessGroup> model = new DefaultComboBoxModel<AccessGroup>(groups.toArray(new AccessGroup[]{}));
+        this.txtPerGAcesso.setModel(model);
+        model.setSelectedItem(groups.get(0));
+    }
+
+    private void formHierarchyChanged(java.awt.event.HierarchyEvent evt) {//GEN-FIRST:event_formHierarchyChanged
+        try {
+            this.loadGroups();
+            this._isLoad = true;
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Ocorreu um erro durante o carregamento do formulário, tente novamente.",
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_formHierarchyChanged
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
@@ -176,7 +219,7 @@ public class JFProfile extends javax.swing.JInternalFrame {
     private javax.swing.JLabel lblPerNome;
     private javax.swing.JLabel lblPerSenha;
     private javax.swing.JTextField txtPerCod;
-    private javax.swing.JComboBox<String> txtPerGAcesso;
+    private javax.swing.JComboBox<AccessGroup> txtPerGAcesso;
     private javax.swing.JTextField txtPerLogin;
     private javax.swing.JTextField txtPerNome;
     private javax.swing.JTextField txtPerSenha;
