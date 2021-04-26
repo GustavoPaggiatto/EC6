@@ -8,10 +8,16 @@ package lpii02;
 import LPII02.Business.Services.AccessGroupBusiness;
 import LPII02.Business.Services.UserBusiness;
 import LPII02.Domain.Entities.AccessGroup;
+import LPII02.Domain.Entities.User;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 
 /**
  *
@@ -21,6 +27,7 @@ public class JFProfile extends javax.swing.JInternalFrame {
 
     private UserBusiness _userBusiness = new UserBusiness();
     private boolean _isLoad = false;
+    
 
     /**
      * Creates new form JFProfile
@@ -38,22 +45,24 @@ public class JFProfile extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        lblPerCod = new javax.swing.JLabel();
         lblPerNome = new javax.swing.JLabel();
         lblPerLogin = new javax.swing.JLabel();
         lblPerSenha = new javax.swing.JLabel();
         lblPerGAcesso = new javax.swing.JLabel();
-        txtPerCod = new javax.swing.JTextField();
-        txtPerNome = new javax.swing.JTextField();
+        txtPerPesquisar = new javax.swing.JTextField();
+        txtName = new javax.swing.JTextField();
         txtPerLogin = new javax.swing.JTextField();
         txtPerSenha = new javax.swing.JTextField();
-        txtPerGAcesso = new javax.swing.JComboBox<AccessGroup>();
+        cboPerGAcesso = new javax.swing.JComboBox<AccessGroup>();
         lblPerAvatar = new javax.swing.JLabel();
         lblPerAvatarImg = new javax.swing.JLabel();
-        btnAdd = new javax.swing.JButton();
-        btnConsultar = new javax.swing.JButton();
-        btnAlterar = new javax.swing.JButton();
-        btnRemover = new javax.swing.JButton();
+        btnPerAdd = new javax.swing.JButton();
+        btnPerAlterar = new javax.swing.JButton();
+        btnPerExcluir = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblUsuarios = new javax.swing.JTable();
+        btnPerPesquisar = new javax.swing.JButton();
+        btnPerAvatar = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -65,9 +74,6 @@ public class JFProfile extends javax.swing.JInternalFrame {
                 formHierarchyChanged(evt);
             }
         });
-
-        lblPerCod.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        lblPerCod.setText("Código:");
 
         lblPerNome.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         lblPerNome.setText("Nome:");
@@ -81,96 +87,184 @@ public class JFProfile extends javax.swing.JInternalFrame {
         lblPerGAcesso.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         lblPerGAcesso.setText("Grupo de Acesso:");
 
-        txtPerGAcesso.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        txtPerPesquisar.setPreferredSize(new java.awt.Dimension(7, 26));
+        txtPerPesquisar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPerPesquisarActionPerformed(evt);
+            }
+        });
+        txtPerPesquisar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtPerPesquisarKeyReleased(evt);
+            }
+        });
+
+        txtName.setPreferredSize(new java.awt.Dimension(7, 26));
+
+        txtPerLogin.setPreferredSize(new java.awt.Dimension(7, 26));
+
+        txtPerSenha.setPreferredSize(new java.awt.Dimension(7, 26));
+        txtPerSenha.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtPerSenhaActionPerformed(evt);
+            }
+        });
+
+        cboPerGAcesso.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        cboPerGAcesso.setPreferredSize(new java.awt.Dimension(7, 26));
 
         lblPerAvatar.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         lblPerAvatar.setText("Avatar:");
 
-        btnAdd.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        btnAdd.setText("Adicionar");
+        lblPerAvatarImg.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        btnConsultar.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        btnConsultar.setText("Consultar");
-        btnConsultar.setPreferredSize(new java.awt.Dimension(99, 27));
+        btnPerAdd.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        btnPerAdd.setText("Adicionar");
+        btnPerAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPerAddActionPerformed(evt);
+            }
+        });
 
-        btnAlterar.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        btnAlterar.setText("Alterar");
-        btnAlterar.setPreferredSize(new java.awt.Dimension(99, 27));
+        btnPerAlterar.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        btnPerAlterar.setText("Alterar");
+        btnPerAlterar.setPreferredSize(new java.awt.Dimension(99, 27));
 
-        btnRemover.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        btnRemover.setText("Remover");
-        btnRemover.setPreferredSize(new java.awt.Dimension(99, 27));
+        btnPerExcluir.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        btnPerExcluir.setText("Excluir");
+        btnPerExcluir.setPreferredSize(new java.awt.Dimension(99, 27));
+        btnPerExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPerExcluirActionPerformed(evt);
+            }
+        });
+
+        tblUsuarios.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(tblUsuarios);
+
+        btnPerPesquisar.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        btnPerPesquisar.setText("Pesquisar");
+        btnPerPesquisar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPerPesquisarActionPerformed(evt);
+            }
+        });
+
+        btnPerAvatar.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        btnPerAvatar.setText("...");
+        btnPerAvatar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPerAvatarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblPerCod)
-                            .addComponent(lblPerNome)
-                            .addComponent(lblPerLogin)
-                            .addComponent(lblPerSenha)
-                            .addComponent(lblPerGAcesso))
-                        .addGap(37, 37, 37)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(txtPerSenha, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtPerLogin, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtPerNome, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtPerCod, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtPerGAcesso, 0, 291, Short.MAX_VALUE))
-                        .addGap(138, 138, 138)
-                        .addComponent(lblPerAvatar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblPerAvatarImg, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(152, 152, 152)
+                                .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(33, 33, 33)
+                                .addComponent(lblPerAvatar))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(13, 13, 13)
+                                        .addComponent(lblPerGAcesso)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(cboPerGAcesso, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addContainerGap()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(lblPerLogin)
+                                            .addComponent(lblPerNome)
+                                            .addComponent(lblPerSenha))
+                                        .addGap(90, 90, 90)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(txtPerSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtPerLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+                                .addComponent(btnPerAvatar, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(52, 52, 52)
+                                .addComponent(btnPerAdd)
+                                .addGap(32, 32, 32)
+                                .addComponent(btnPerAlterar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(35, 35, 35)
+                                .addComponent(btnPerExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnAdd)
-                        .addGap(33, 33, 33)
-                        .addComponent(btnConsultar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(39, 39, 39)
-                        .addComponent(btnAlterar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(32, 32, 32)
-                        .addComponent(btnRemover, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(282, Short.MAX_VALUE))
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(txtPerPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(11, 11, 11)
+                                .addComponent(btnPerPesquisar))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addComponent(lblPerAvatarImg, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(458, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(35, 35, 35)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblPerAvatarImg, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addComponent(lblPerAvatarImg, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(8, 8, 8)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblPerNome)
+                        .addGap(19, 19, 19)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblPerCod)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(txtPerCod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(lblPerAvatar)))
-                        .addGap(40, 40, 40)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblPerNome)
-                            .addComponent(txtPerNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(49, 49, 49)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblPerLogin)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblPerLogin)
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(7, 7, 7)
+                                        .addComponent(lblPerSenha))
+                                    .addComponent(txtPerSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addComponent(txtPerLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(49, 49, 49)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lblPerSenha)
-                            .addComponent(txtPerSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(43, 43, 43)
+                        .addGap(14, 14, 14)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblPerGAcesso)
-                            .addComponent(txtPerGAcesso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAdd)
-                    .addComponent(btnConsultar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAlterar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnRemover, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(32, 32, 32))
+                            .addComponent(cboPerGAcesso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnPerAdd)
+                            .addComponent(btnPerAlterar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnPerExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(33, 33, 33)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtPerPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnPerPesquisar))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblPerAvatar))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnPerAvatar)
+                        .addGap(402, 402, 402))))
         );
 
         setBounds(0, 0, 1228, 502);
@@ -188,9 +282,10 @@ public class JFProfile extends javax.swing.JInternalFrame {
         groups.addAll(acBusiness.get());
 
         DefaultComboBoxModel<AccessGroup> model = new DefaultComboBoxModel<AccessGroup>(groups.toArray(new AccessGroup[]{}));
-        this.txtPerGAcesso.setModel(model);
+        this.cboPerGAcesso.setModel(model);
         model.setSelectedItem(groups.get(0));
     }
+
 
     private void formHierarchyChanged(java.awt.event.HierarchyEvent evt) {//GEN-FIRST:event_formHierarchyChanged
         try {
@@ -205,23 +300,103 @@ public class JFProfile extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_formHierarchyChanged
 
+    
+    private void btnPerAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPerAddActionPerformed
+        // TODO add your handling code here:
+        try {
+
+           // txtPerCodigo.setText(txtPerCodigo.getText());
+            txtName.setText(txtName.getText());
+            txtPerLogin.setText(txtPerLogin.getText());
+            txtPerSenha.setText(txtPerSenha.getText());
+            cboPerGAcesso.setSelectedItem(cboPerGAcesso.getSelectedItem().toString());
+
+
+            Pattern pattern = Pattern.compile("[^0-9]", Pattern.CASE_INSENSITIVE);
+         
+            User user = this._userBusiness.getInstance();
+
+            //user.setId(Integer.parseInt(txtPerCodigo.getText()));
+            user.setName(txtName.getText());
+            user.setLogin(txtPerLogin.getText());
+            user.setPassword(txtPerSenha.getText());
+            user.setAccessGroup((AccessGroup) this.cboPerGAcesso.getSelectedItem());
+
+            this._userBusiness.insert(user);
+
+            //reload table...
+            //  this.loadTable();
+            //reset...
+            //     this.clearControls();
+            //this.txtPerNome.setEnabled(false);
+            //message success...
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Cadastro efetuado com sucesso!",
+                    "Info.",
+                    JOptionPane.INFORMATION_MESSAGE);
+            //txtPerCodigo.setText(null);
+            txtName.setText(null);
+            txtPerLogin.setText(null);
+            txtPerSenha.setText(null);
+            cboPerGAcesso.setSelectedItem(null);
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    ex.getMessage(),
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnPerAddActionPerformed
+
+    private void btnPerPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPerPesquisarActionPerformed
+        // TODO add your handling code here:
+       
+    }//GEN-LAST:event_btnPerPesquisarActionPerformed
+
+    private void btnPerExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPerExcluirActionPerformed
+        // TODO add your handling code here:
+         
+    }//GEN-LAST:event_btnPerExcluirActionPerformed
+
+    private void btnPerAvatarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPerAvatarActionPerformed
+        // TODO add your handling code here:
+
+
+    }//GEN-LAST:event_btnPerAvatarActionPerformed
+
+    private void txtPerPesquisarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPerPesquisarKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPerPesquisarKeyReleased
+
+    private void txtPerPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPerPesquisarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPerPesquisarActionPerformed
+
+    private void txtPerSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPerSenhaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtPerSenhaActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAdd;
-    private javax.swing.JButton btnAlterar;
-    private javax.swing.JButton btnConsultar;
-    private javax.swing.JButton btnRemover;
+    private javax.swing.JButton btnPerAdd;
+    private javax.swing.JButton btnPerAlterar;
+    private javax.swing.JButton btnPerAvatar;
+    private javax.swing.JButton btnPerExcluir;
+    private javax.swing.JButton btnPerPesquisar;
+    private javax.swing.JComboBox<AccessGroup> cboPerGAcesso;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblPerAvatar;
     private javax.swing.JLabel lblPerAvatarImg;
-    private javax.swing.JLabel lblPerCod;
     private javax.swing.JLabel lblPerGAcesso;
     private javax.swing.JLabel lblPerLogin;
     private javax.swing.JLabel lblPerNome;
     private javax.swing.JLabel lblPerSenha;
-    private javax.swing.JTextField txtPerCod;
-    private javax.swing.JComboBox<AccessGroup> txtPerGAcesso;
+    private javax.swing.JTable tblUsuarios;
+    private javax.swing.JTextField txtName;
     private javax.swing.JTextField txtPerLogin;
-    private javax.swing.JTextField txtPerNome;
+    private javax.swing.JTextField txtPerPesquisar;
     private javax.swing.JTextField txtPerSenha;
     // End of variables declaration//GEN-END:variables
 }

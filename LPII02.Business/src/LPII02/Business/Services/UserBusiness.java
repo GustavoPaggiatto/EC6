@@ -79,11 +79,11 @@ public class UserBusiness extends BaseBusiness<User> {
             throw new Exception("A senha deve conter pelo menos 6 caracteres.");
         }
 
-        if (!model.getPassword().matches("[\\d]")) {
+        if (model.getPassword().matches("[\\d]")) {
             throw new Exception("A senha deve conter pelo menos um número.");
         }
 
-        if (!model.getPassword().matches("[^\\d]")) {
+        if (model.getPassword().matches("[^\\d]")) {
             throw new Exception("A senha deve conter pelo menos uma letrinha.");
         }
 
