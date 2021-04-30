@@ -24,7 +24,7 @@ public class AccessGroup extends BaseEntity {
     public void setUsers(Set<User> users) {
         this.users = users;
     }
-   
+
     public String getName() {
         return name;
     }
@@ -39,5 +39,10 @@ public class AccessGroup extends BaseEntity {
 
     public void setDescription(String Description) {
         this.description = Description;
+    }
+
+    @Override
+    public String toString() {
+        return this.getId() + " - " + this.name;
     }
 }

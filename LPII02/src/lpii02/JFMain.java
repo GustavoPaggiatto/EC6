@@ -74,6 +74,7 @@ public class JFMain extends javax.swing.JFrame {
         jMenuItem7 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem8 = new javax.swing.JMenuItem();
+        jMenuItem11 = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
         jMenuItem9 = new javax.swing.JMenuItem();
         jMenuItem10 = new javax.swing.JMenuItem();
@@ -114,6 +115,11 @@ public class JFMain extends javax.swing.JFrame {
         jMenuItem2.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         jMenuItem2.setText("Perfil");
         jMenuItem2.setName("imPerfil"); // NOI18N
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem2);
 
         jMenuItem1.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
@@ -198,6 +204,14 @@ public class JFMain extends javax.swing.JFrame {
             }
         });
         jMenu3.add(jMenuItem8);
+
+        jMenuItem11.setText("Novo Simulado");
+        jMenuItem11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem11ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem11);
 
         jMenuBar1.add(jMenu3);
 
@@ -360,6 +374,30 @@ public class JFMain extends javax.swing.JFrame {
         internalFrame.setVisible(true);
     }//GEN-LAST:event_jMenuItem9ActionPerformed
 
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // TODO add your handling code here:
+        JFProfile profile = new JFProfile();
+        profile.setVisible(true);
+        jDesktopPane1.add(profile);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
+        JInternalFrame internalFrame = new JInternalFrame("Novo Simulado",
+                true,
+                true,
+                true,
+                true);
+
+        Container container = internalFrame.getContentPane();
+        JPNewTest frame = new JPNewTest();
+
+        container.add(frame, BorderLayout.CENTER);
+        internalFrame.pack();
+
+        this.jDesktopPane1.add(internalFrame);
+        internalFrame.setVisible(true);     // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem11ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -406,6 +444,7 @@ public class JFMain extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem10;
+    private javax.swing.JMenuItem jMenuItem11;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
