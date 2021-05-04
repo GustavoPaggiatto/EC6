@@ -253,5 +253,4 @@ public abstract class BaseRepository<T> {
         }
         return result;
     }
-
 }
