@@ -5,6 +5,8 @@
  */
 package lpii02;
 
+import LPII02.Domain.Entities.Teacher;
+
 /**
  *
  * @author ser
@@ -115,7 +117,7 @@ public class JPNewTest extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
-        this.clearControls();
+        //this.clearControls();
         this.txtCode.setEnabled(true);
     }//GEN-LAST:event_btnNewActionPerformed
 

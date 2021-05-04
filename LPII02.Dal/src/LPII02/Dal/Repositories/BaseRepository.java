@@ -212,17 +212,17 @@ public abstract class BaseRepository<T> {
                 this._session.close();
             }
         }
-    }  
-    
-        public List<T> findAll(boolean closeSession) {
-       
+    }
+
+    public List<T> findAll(boolean closeSession) {
+
         try {
             if (!this._session.isOpen()) {
                 this._session = HibernateUtil.getSessionFactory().openSession();
             }
             //transaction = _session.beginTransaction();
             Query query = this._session.createQuery("from " + this._class.getName());
-                    return query.list();
+            return query.list();
         } catch (Exception ex) {
             throw ex;
         } finally {
@@ -230,29 +230,28 @@ public abstract class BaseRepository<T> {
                 this._session.close();
             }
         }
-    }  
+    }
 
-        public T find(Object id) {
-		T result = null;
-		//Session _session = null;
-		Transaction transaction = null;
-		try {
-			if (!this._session.isOpen()) {
-            this._session = HibernateUtil.getSessionFactory().openSession();
+    public T find(Object id) {
+        T result = null;
+        //Session _session = null;
+        Transaction transaction = null;
+        try {
+            if (!this._session.isOpen()) {
+                this._session = HibernateUtil.getSessionFactory().openSession();
             }
-			transaction = _session.beginTransaction();
-			result = (T) _session.get(this._class, (Serializable) id);
-			transaction.commit();
-		} catch (Exception e) {
-			result = null;
-			if(transaction != null) {
-				transaction.rollback();
-			}
-		} finally {
-			_session.close();
-		}
-		return result;
-	}
-        
+            transaction = _session.beginTransaction();
+            result = (T) _session.get(this._class, (Serializable) id);
+            transaction.commit();
+        } catch (Exception e) {
+            result = null;
+            if (transaction != null) {
+                transaction.rollback();
+            }
+        } finally {
+            _session.close();
+        }
+        return result;
+    }
 
 }

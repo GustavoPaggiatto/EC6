@@ -13,6 +13,9 @@ import LPII02.Domain.Entities.Course;
 import LPII02.Domain.Entities.Matter;
 import LPII02.Domain.Entities.Teacher;
 import LPII02.Domain.Entities.Lesson;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +25,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -142,6 +146,11 @@ public class JPCourse extends javax.swing.JPanel {
 
         btnLessons.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         btnLessons.setText("Aulas");
+        btnLessons.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLessonsActionPerformed(evt);
+            }
+        });
 
         jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
@@ -705,6 +714,29 @@ public class JPCourse extends javax.swing.JPanel {
                     JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void btnLessonsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLessonsActionPerformed
+        if (this._course == null) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Nenhum curso selecionado.",
+                    "Atenção",
+                    JOptionPane.WARNING_MESSAGE);
+
+            return;
+        }
+
+        JFrame frame = new JFrame();
+        JPLessons pLessons = new JPLessons(this._course);
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+
+        frame.setLayout(new BorderLayout());
+        frame.add(pLessons, BorderLayout.CENTER);
+        frame.pack();
+
+        frame.setLocation(dim.width / 2 - frame.getSize().width / 2, dim.height / 2 - frame.getSize().height / 2);
+        frame.setVisible(true);
+    }//GEN-LAST:event_btnLessonsActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
