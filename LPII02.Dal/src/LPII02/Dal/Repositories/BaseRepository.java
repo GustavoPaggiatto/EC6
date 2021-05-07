@@ -176,7 +176,7 @@ public abstract class BaseRepository<T> {
             }
         }
     }
-
+    
     public List<T> get(int[] ids) {
         try {
             String unionIds = "";
@@ -230,27 +230,5 @@ public abstract class BaseRepository<T> {
                 this._session.close();
             }
         }
-    }
-
-    public T find(Object id) {
-        T result = null;
-        //Session _session = null;
-        Transaction transaction = null;
-        try {
-            if (!this._session.isOpen()) {
-                this._session = HibernateUtil.getSessionFactory().openSession();
-            }
-            transaction = _session.beginTransaction();
-            result = (T) _session.get(this._class, (Serializable) id);
-            transaction.commit();
-        } catch (Exception e) {
-            result = null;
-            if (transaction != null) {
-                transaction.rollback();
-            }
-        } finally {
-            _session.close();
-        }
-        return result;
     }
 }

@@ -68,8 +68,5 @@ public abstract class BaseBusiness<T> {
     public List<T> findAll() {
         return this._repository.get(false);
     }
-    
-//       public T find(Object id){
-//        return (T) this._repository.get(true);
-//    }
+     
 }
