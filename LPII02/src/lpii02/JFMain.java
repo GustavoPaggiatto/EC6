@@ -48,7 +48,7 @@ public class JFMain extends javax.swing.JFrame {
                 Image _backImg = null;
 
                 try {
-                    _backImg = ImageIO.read(new File("C:\\Users\\Gustavo\\Desktop\\EC5\\Java\\Projeto\\EC6\\Imgs\\logo_cranio-removebg-preview.png"));
+                    _backImg = ImageIO.read(new File("C:\\Users\\Eleni Oliveira\\Documents\\GitHub\\EC6\\EC6\\Imgs\\logo_cranio-removebg-preview.png"));
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
@@ -79,6 +79,8 @@ public class JFMain extends javax.swing.JFrame {
         jMenuItem9 = new javax.swing.JMenuItem();
         jMenuItem10 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
+        jMenu6 = new javax.swing.JMenu();
+        jMenuItem13 = new javax.swing.JMenuItem();
 
         label1.setText("label1");
 
@@ -237,6 +239,20 @@ public class JFMain extends javax.swing.JFrame {
         jMenu4.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
         jMenu4.setName("mForuns"); // NOI18N
         jMenuBar1.add(jMenu4);
+
+        jMenu6.setText("Ajuda");
+        jMenu6.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+
+        jMenuItem13.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        jMenuItem13.setText("Sobre");
+        jMenuItem13.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem13ActionPerformed(evt);
+            }
+        });
+        jMenu6.add(jMenuItem13);
+
+        jMenuBar1.add(jMenu6);
 
         setJMenuBar(jMenuBar1);
 
@@ -398,6 +414,12 @@ public class JFMain extends javax.swing.JFrame {
         internalFrame.setVisible(true);     // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem11ActionPerformed
 
+    private void jMenuItem13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem13ActionPerformed
+        // TODO add your handling code here:
+         JFAbout about = new JFAbout();
+         about.setVisible(true);
+    }//GEN-LAST:event_jMenuItem13ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -441,10 +463,12 @@ public class JFMain extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
+    private javax.swing.JMenu jMenu6;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem10;
     private javax.swing.JMenuItem jMenuItem11;
+    private javax.swing.JMenuItem jMenuItem13;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
