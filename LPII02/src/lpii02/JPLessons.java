@@ -26,7 +26,7 @@ import javax.swing.table.DefaultTableModel;
  * @author Gustavo
  */
 public class JPLessons extends javax.swing.JPanel {
-    
+
     private final Course _course;
     private boolean _loadPassed = false;
     private int _page = 0;
@@ -40,7 +40,7 @@ public class JPLessons extends javax.swing.JPanel {
      */
     public JPLessons(Course course) {
         initComponents();
-        
+
         this._course = course;
         this.grLessons.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
@@ -49,21 +49,21 @@ public class JPLessons extends javax.swing.JPanel {
             }
         });
     }
-    
+
     private void loadTable() throws Exception {
         List<Lesson> lessons = this._leBusiness.getByCourse(this._course);
-        
+
         if (lessons.size() > this._qtdPerPage) {
             lessons = lessons.subList((this._page - 1) * this._qtdPerPage, this._qtdPerPage);
         }
-        
+
         if (lessons != null) {
             DefaultTableModel dtm = (DefaultTableModel) this.grLessons.getModel();
-            
+
             while (dtm.getRowCount() > 0) {
                 dtm.removeRow(0);
             }
-            
+
             for (Lesson l : lessons) {
                 dtm.addRow(new Object[]{
                     l.getId(),
@@ -74,24 +74,25 @@ public class JPLessons extends javax.swing.JPanel {
             }
         }
     }
-    
+
     private void valueRowChanged(ListSelectionEvent e) {
         if (this.grLessons.getSelectedRows() == null
                 || this.grLessons.getSelectedRows().length == 0) {
             return;
         }
-        
+
         int selectedRow = this.grLessons.getSelectedRows()[0];
         int lessonId = Integer.parseInt(this.grLessons.getValueAt(selectedRow, 0).toString());
-        
+
         try {
             this._lesson = this._leBusiness.get(lessonId);
-            
+
             if (this._lesson != null) {
                 this.txtName.setText(this._lesson.getName());
                 this.taResume.setText(this._lesson.getResume());
                 this.numOrder.setValue(this._lesson.getOrder());
                 this.txtFile.setText("Carregamento via base de dados...");
+                this._video = this._lesson.getContent();
             }
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(
@@ -101,14 +102,14 @@ public class JPLessons extends javax.swing.JPanel {
                     JOptionPane.ERROR_MESSAGE);
         }
     }
-    
+
     private void clearControls() {
         this._lesson = null;
         this._video = null;
         this.txtFile.setText("");
         this.txtName.setText("");
         this.taResume.setText("");
-        this.numOrder.setValue("");
+        this.numOrder.setValue(0);
     }
 
     /**
@@ -199,9 +200,19 @@ public class JPLessons extends javax.swing.JPanel {
 
         btnUpdate.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         btnUpdate.setText("Alterar");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
 
         btnDelete.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         btnDelete.setText("Excluir");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
 
         grLessons.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -328,7 +339,7 @@ public class JPLessons extends javax.swing.JPanel {
         if (this._loadPassed) {
             return;
         }
-        
+
         try {
             this.loadTable();
             this._loadPassed = true;
@@ -353,11 +364,14 @@ public class JPLessons extends javax.swing.JPanel {
             this._lesson.setResume(this.taResume.getText().trim());
             this._lesson.setCourse(this._course);
             this._lesson.setContent(this._video);
-            
+
             this._leBusiness.insert(this._lesson);
 
             //reset...
             this.clearControls();
+
+            //reload...
+            this.loadTable();
 
             //success...
             JOptionPane.showMessageDialog(
@@ -377,10 +391,10 @@ public class JPLessons extends javax.swing.JPanel {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         if (this.fileVideo.showOpenDialog(null) == fileVideo.APPROVE_OPTION) {
             File file = this.fileVideo.getSelectedFile();
-            
+
             if (file != null) {
                 this.txtFile.setText(file.getPath());
-                
+
                 try {
                     this._video = FileUtils.getBytes(file);
                 } catch (IOException ex) {
@@ -395,6 +409,88 @@ public class JPLessons extends javax.swing.JPanel {
             }
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        try {
+            if (this._lesson == null) {
+                JOptionPane.showMessageDialog(
+                        null,
+                        "Nenhuma aula selecionada.",
+                        "Atenção",
+                        JOptionPane.WARNING_MESSAGE);
+
+                return;
+            }
+
+            this._lesson.setName(this.txtName.getText().trim());
+            this._lesson.setOrder(Integer.parseInt(this.numOrder.getValue().toString()));
+            this._lesson.setResume(this.taResume.getText().trim());
+            this._lesson.setCourse(this._course);
+            this._lesson.setContent(this._video);
+
+            this._leBusiness.update(this._lesson);
+
+            //reload table...
+            this.loadTable();
+
+            //reset...
+            this.clearControls();
+
+            //success...
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Alteração efetuada com sucesso!",
+                    "Info.",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    ex.getMessage(),
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        try {
+            if (this._lesson == null) {
+                JOptionPane.showMessageDialog(
+                        null,
+                        "Nenhuma aula selecionada.",
+                        "Atenção",
+                        JOptionPane.WARNING_MESSAGE);
+
+                return;
+            }
+
+            if (JOptionPane.showConfirmDialog(
+                    this,
+                    "Deseja realmente prosseguir com a exclusão?",
+                    "Confirmação",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE) == 0) {
+                this._leBusiness.delete(this._lesson);
+
+                //reload table...
+                this.loadTable();
+
+                //reset...
+                this.clearControls();
+
+                JOptionPane.showMessageDialog(
+                        null,
+                        "Exclusão efetuada com sucesso!",
+                        "Info.",
+                        JOptionPane.INFORMATION_MESSAGE);
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    ex.getMessage(),
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnDeleteActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

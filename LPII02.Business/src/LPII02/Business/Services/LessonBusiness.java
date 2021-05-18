@@ -17,33 +17,33 @@ import java.util.UUID;
  * @author Gustavo
  */
 public class LessonBusiness extends BaseBusiness<Lesson> {
-    
+
     public LessonBusiness() {
         super(Lesson.class, new LessonRepository());
     }
-    
+
     public List<Lesson> getByCourse(Course course) throws Exception {
         return ((LessonRepository) this._repository).getByCourse(course);
     }
-    
+
     @Override
     public void insert(Lesson model) throws Exception {
         this.commonValidation(model);
         model.setLessonGuid(UUID.randomUUID().toString());
-        
+
         List<Lesson> lessons = null;
         List<Lesson> lessonsChange = null;
-        
+
         try {
             lessons = ((LessonRepository) this._repository).getByCourse(model.getCourse());
-            
+
             if (lessons != null) {
                 for (Lesson l : lessons) {
                     if (l.getOrder() >= model.getOrder()) {
                         if (lessonsChange == null) {
                             lessonsChange = new ArrayList<Lesson>();
                         }
-                        
+
                         l.setOrder(l.getOrder() + 1);
                         lessonsChange.add(l);
                     }
@@ -54,14 +54,14 @@ public class LessonBusiness extends BaseBusiness<Lesson> {
                     + "a alteração da ordem, caso necessário. Tente novamente ou contate a "
                     + "equipe responsável.");
         }
-        
+
         try {
             super.insert(model);
         } catch (Exception ex) {
             throw new Exception("Ocorreu um erro ao inserir a aula, tente novamente ou"
                     + "contate a equipe responsável.");
         }
-        
+
         try {
             if (lessonsChange != null) {
                 this.update(lessonsChange);
@@ -71,24 +71,55 @@ public class LessonBusiness extends BaseBusiness<Lesson> {
                     + "tente novamente ou contate a equipe responsável.");
         }
     }
-    
+
+    @Override
+    public void update(Lesson model) throws Exception {
+        this.commonValidation(model);
+
+        try {
+            super.update(model);
+        } catch (Exception ex) {
+            throw new Exception("Ocorreu um erro ao alterar os dados da aula, "
+                    + "tente novamente ou contate a equipe responsável.");
+        }
+    }
+
+    @Override
+    public void delete(Lesson model) throws Exception {
+        try {
+            List<Lesson> lessons = ((LessonRepository) this._repository).getByCourse(model.getCourse());
+
+            for (Lesson l : lessons) {
+                if (l.getOrder() > model.getOrder()) {
+                    l.setOrder(l.getOrder() - 1);
+                    this._repository.update(l, false);
+                }
+            }
+
+            this._repository.delete(model, true);
+        } catch (Exception ex) {
+            throw new Exception("Ocorreu um erro ao excluir a aula, "
+                    + "tente novamente ou contate a equipe responsável.");
+        }
+    }
+
     private void commonValidation(Lesson model) throws Exception {
         if (model.getContent() == null) {
             throw new Exception("O vídeo da aula não informado!");
         }
-        
+
         if (model.getContent().length == 0) {
             throw new Exception("O vídeo da aula é um arquivo vazio, verifique.");
         }
-        
+
         if (model.getName() == null || model.getName().trim().length() == 0) {
             throw new Exception("O nome da aula não informado, verifique");
         }
-        
+
         if (model.getOrder() <= 0) {
             throw new Exception("A ordem da aula deve ser posivitiva, verifique.");
         }
-        
+
         if (model.getResume() == null || model.getResume().trim().length() == 0) {
             throw new Exception("O resumo da aula não foi preenchido, verifique.");
         }
