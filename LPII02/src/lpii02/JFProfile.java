@@ -329,7 +329,7 @@ public class JFProfile extends javax.swing.JInternalFrame {
         if (this._isLoad) {
             return;
         }
-        
+
         try {
             this.loadGroups();
             FillData();
@@ -345,63 +345,53 @@ public class JFProfile extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_formHierarchyChanged
 
     private void FillData() {
-        DefaultTableModel dtm = (DefaultTableModel)this.tblUsuarios.getModel();// new DefaultTableModel();
-        
-        while (dtm.getRowCount() > 0)
-            dtm.removeRow(0);
-        
-        //dtm.addColumn("Id");
-        // dtm.addColumn("AvatarGuid");
-        //dtm.addColumn("Nome");
-        //dtm.addColumn("Login");
-        //dtm.addColumn("Senha");
-        //dtm.addColumn("Avatar");
-        //dtm.addColumn("Grupo de Acesso");
-        
-        for (User user : this._userBusiness.findAll()) {
-            //,user.getAvatarGuid()
-            //user.getAvatar(),
-            dtm.addRow(new Object[]{user.getId(), user.getName(), user.getLogin(), user.getAccessGroup().getName()});
 
+        DefaultTableModel dtm = new DefaultTableModel();
+        dtm.addColumn("Id");
+        dtm.addColumn("Nome");
+        dtm.addColumn("Grupo de Acesso");
+
+        for (User user : this._userBusiness.findAll()) {
+            dtm.addRow(new Object[]{user.getId(), user.getName(), user.getAccessGroup()});
         }
-        //this.tblUsuarios.setModel(dtm);
+        this.tblUsuarios.setModel(dtm);
     }
 
     public void set_fields() {
-        int set = tblUsuarios.getSelectedRow();
-        txtName.setText(tblUsuarios.getModel().getValueAt(set, 1).toString());
-        txtPerLogin.setText(tblUsuarios.getModel().getValueAt(set, 2).toString());
-        txtPerSenha.setText(tblUsuarios.getModel().getValueAt(set, 3).toString());
-        //cboPerGAcesso.setSelectedItem(tblUsuarios.getModel().getValueAt(set, 4).toString());
-        cboPerGAcesso.setSelectedItem(tblUsuarios.getValueAt(set, 4).toString());
 
-        Image Avatar = ((ImageIcon) tblUsuarios.getValueAt(set, 5)).getImage();
-        // Image Avatar = ((ImageIcon)tblUsuarios.getValueAt(set,5)).getImage().lblPerAvatarImg.getScaleInstance();
-        ImageIcon img = new ImageIcon(Avatar);
+        try {
+            int index = this.tblUsuarios.getSelectedRow();
+            int codigo = (int) this.tblUsuarios.getValueAt(index, 0);
+            User user = this._userBusiness.get(codigo);
+            this.txtName.setText(user.getName());
+            this.txtPerSenha.setText(String.valueOf(user.getPassword()));
+            user.setPassword(String.valueOf(txtPerSenha.getPassword()));
+            this.txtPerLogin.setText(user.getLogin());
+            this.cboPerGAcesso.setSelectedItem(user.getAccessGroup());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
 
-        lblPerAvatarImg.setIcon(img);
-        btnPerAdd.setEnabled(false);
-
+//        int set = tblUsuarios.getSelectedRow();
+//        txtName.setText(tblUsuarios.getModel().getValueAt(set, 1).toString());
+//        txtPerLogin.setText(tblUsuarios.getModel().getValueAt(set, 2).toString());
+//        //txtPerSenha.setText(tblUsuarios.getModel().getValueAt(set, 3).toString());
+//        cboPerGAcesso.setSelectedItem(tblUsuarios.getModel().getValueAt(set, 4).toString());
+//       // cboPerGAcesso.setSelectedItem(tblUsuarios.getValueAt(set, 4).toString());
+//
+//        Image Avatar = ((ImageIcon) tblUsuarios.getValueAt(set, 5)).getImage();
+//        // Image Avatar = ((ImageIcon)tblUsuarios.getValueAt(set,5)).getImage().lblPerAvatarImg.getScaleInstance();
+//        ImageIcon img = new ImageIcon(Avatar);
+//
+//        lblPerAvatarImg.setIcon(img);
+//        btnPerAdd.setEnabled(false);
     }
 
 
     private void btnPerAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPerAddActionPerformed
         // TODO add your handling code here:
         try {
-
-            // txtPerCodigo.setText(txtPerCodigo.getText());
-            txtName.setText(txtName.getText());
-            txtPerLogin.setText(txtPerLogin.getText());
-            txtPerSenha.setText(String.valueOf(txtPerSenha.getPassword()));
-            // txtPerSenha.setText(txtPerSenha.getText());
-            cboPerGAcesso.setSelectedItem(cboPerGAcesso.getSelectedItem().toString());
-            lblPerAvatarImg.setText(lblPerAvatarImg.getText());
-
-            // Pattern pattern = Pattern.compile("[^0-9]", Pattern.CASE_INSENSITIVE);
             User user = this._userBusiness.getInstance();
-
-            //user.setId(Integer.parseInt(txtPerCodigo.getText()));
-//            try{
             user.setName(txtName.getText());
             user.setLogin(txtPerLogin.getText());
             user.setPassword(String.valueOf(txtPerSenha.getPassword()));
@@ -446,11 +436,39 @@ public class JFProfile extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnPerPesquisarActionPerformed
 
     private void btnPerExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPerExcluirActionPerformed
-        // TODO add your handling code here:
-       
-                
+
+        try {
+            if (JOptionPane.showConfirmDialog(
+                    this,
+                    "Deseja realmente excluir a matéria?",
+                    "Confirmação",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE) == 0) {
+                int index = this.tblUsuarios.getSelectedRow();
+                int codigo = (int) this.tblUsuarios.getValueAt(index, 0);
+                User user = this._userBusiness.get(codigo);
+                this._userBusiness.delete(user);
+                FillData();
+                txtName.setText(null);
+                txtPerLogin.setText(null);
+                txtPerSenha.setText(null);
+                cboPerGAcesso.setSelectedItem(null);
+                lblPerAvatarImg.setText(null);
+                JOptionPane.showMessageDialog(
+                        null,
+                        "Exclusão efetuada com sucesso!",
+                        "Info.",
+                        JOptionPane.INFORMATION_MESSAGE);
+            }
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(
+                    null,
+                    ex.getMessage(),
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+
     }//GEN-LAST:event_btnPerExcluirActionPerformed
-    
 
     public ImageIcon resizePic(String picPath, byte[] BLOBpic, int wdth, int hgt) {
 
@@ -507,7 +525,7 @@ public class JFProfile extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_tblUsuariosMouseClicked
 
     private void btnPerAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPerAlterarActionPerformed
-        // TODO add your handling code here:
+
         try {
             User user = this._userBusiness.getInstance();
             user.setName(this.txtName.getText());
@@ -517,13 +535,20 @@ public class JFProfile extends javax.swing.JInternalFrame {
             // user.setPassword(txtPerSenha.getText());
             user.setAccessGroup((AccessGroup) this.cboPerGAcesso.getSelectedItem());
             this._userBusiness.update(user);
+            FillData();
 
+            txtName.setText(null);
+            txtPerLogin.setText(null);
+            txtPerSenha.setText(null);
+            cboPerGAcesso.setSelectedItem(null);
+            lblPerAvatarImg.setText(null);
+
+            //message success...
             JOptionPane.showMessageDialog(
                     null,
                     "Alteração efetuada com sucesso!",
                     "Info.",
                     JOptionPane.INFORMATION_MESSAGE);
-            FillData();
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(
                     null,
