@@ -231,6 +231,11 @@ public class JFMain extends javax.swing.JFrame {
 
         jMenuItem10.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         jMenuItem10.setText("Disponibilidades");
+        jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem10ActionPerformed(evt);
+            }
+        });
         jMenu5.add(jMenuItem10);
 
         jMenuBar1.add(jMenu5);
@@ -416,9 +421,26 @@ public class JFMain extends javax.swing.JFrame {
 
     private void jMenuItem13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem13ActionPerformed
         // TODO add your handling code here:
-         JFAbout about = new JFAbout();
-         about.setVisible(true);
+        JFAbout about = new JFAbout();
+        about.setVisible(true);
     }//GEN-LAST:event_jMenuItem13ActionPerformed
+
+    private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
+        JInternalFrame internalFrame = new JInternalFrame("Catálogo - Cursos",
+                true,
+                true,
+                true,
+                true);
+
+        Container container = internalFrame.getContentPane();
+        JPSearchCourse frame = new JPSearchCourse();
+
+        container.add(frame, BorderLayout.CENTER);
+        internalFrame.pack();
+
+        this.jDesktopPane1.add(internalFrame);
+        internalFrame.setVisible(true);
+    }//GEN-LAST:event_jMenuItem10ActionPerformed
 
     /**
      * @param args the command line arguments
