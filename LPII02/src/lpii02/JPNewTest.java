@@ -39,15 +39,15 @@ public class JPNewTest extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Cambria Math", 0, 14)); // NOI18N
         jLabel1.setText("Matéria da prova:");
         jLabel1.setName("lblCode"); // NOI18N
 
-        jLabel2.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Cambria Math", 0, 14)); // NOI18N
         jLabel2.setText("Dificuldade da prova:");
         jLabel2.setName("lblCode"); // NOI18N
 
-        jLabel3.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Cambria Math", 0, 14)); // NOI18N
         jLabel3.setText("Quantidade de questões:");
         jLabel3.setName("lblCode"); // NOI18N
 
@@ -59,8 +59,12 @@ public class JPNewTest extends javax.swing.JFrame {
         txtCode.setEnabled(false);
         txtCode.setName("txtCode"); // NOI18N
 
-        btnNew.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        btnNew.setBackground(new java.awt.Color(230, 230, 230));
+        btnNew.setFont(new java.awt.Font("Cambria Math", 0, 14)); // NOI18N
         btnNew.setText("Criar Simulado");
+        btnNew.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnNew.setMaximumSize(new java.awt.Dimension(97, 32));
+        btnNew.setPreferredSize(new java.awt.Dimension(97, 32));
         btnNew.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNewActionPerformed(evt);
@@ -90,7 +94,7 @@ public class JPNewTest extends javax.swing.JFrame {
                                     .addComponent(cbTeacher, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(93, 93, 93)
-                        .addComponent(btnNew)))
+                        .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -109,8 +113,8 @@ public class JPNewTest extends javax.swing.JFrame {
                     .addComponent(jLabel3)
                     .addComponent(txtCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(33, 33, 33)
-                .addComponent(btnNew)
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         pack();

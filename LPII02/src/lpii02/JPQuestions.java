@@ -105,7 +105,6 @@ public class JPQuestions extends javax.swing.JPanel {
         btnInsert = new javax.swing.JButton();
         btnEdit = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
-        btnImgPreview = new javax.swing.JButton();
         btnAlternatives = new javax.swing.JButton();
 
         jfImage.setApproveButtonText("OK");
@@ -116,35 +115,38 @@ public class JPQuestions extends javax.swing.JPanel {
 
         jfImage.setFileFilter(imageFilter);
 
+        jpScroll.setPreferredSize(new java.awt.Dimension(900, 502));
         jpScroll.addHierarchyListener(new java.awt.event.HierarchyListener() {
             public void hierarchyChanged(java.awt.event.HierarchyEvent evt) {
                 jpScrollHierarchyChanged(evt);
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Cambria Math", 0, 14)); // NOI18N
         jLabel1.setText("Matéria:");
 
-        jLabel2.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Cambria Math", 0, 14)); // NOI18N
         jLabel2.setText("Dificuldade:");
 
-        jLabel3.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Cambria Math", 0, 14)); // NOI18N
         jLabel3.setText("Enunciado:");
 
-        jLabel4.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Cambria Math", 0, 14)); // NOI18N
         jLabel4.setText("Resposta:");
 
-        jLabel5.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Cambria Math", 0, 14)); // NOI18N
         jLabel5.setText("Imagem (Auxiliar):");
 
         taEnunciated.setColumns(20);
         taEnunciated.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         taEnunciated.setRows(5);
+        taEnunciated.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED, java.awt.Color.lightGray, java.awt.Color.lightGray, java.awt.Color.lightGray, java.awt.Color.lightGray));
         jScrollPane1.setViewportView(taEnunciated);
 
         taAnwser.setColumns(20);
         taAnwser.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         taAnwser.setRows(5);
+        taAnwser.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED, java.awt.Color.lightGray, java.awt.Color.lightGray, java.awt.Color.lightGray, java.awt.Color.lightGray));
         jScrollPane2.setViewportView(taAnwser);
 
         cbMatters.setFont(new java.awt.Font("Century Gothic", 0, 12));
@@ -180,8 +182,14 @@ public class JPQuestions extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+        grQuestions.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        grQuestions.setIntercellSpacing(new java.awt.Dimension(0, 0));
+        grQuestions.setShowHorizontalLines(false);
+        grQuestions.setShowVerticalLines(false);
         jScrollPane3.setViewportView(grQuestions);
+        grQuestions.getAccessibleContext().setAccessibleName("");
 
+        btnLast.setBackground(new java.awt.Color(230, 230, 230));
         btnLast.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         btnLast.setText(">>");
         btnLast.addActionListener(new java.awt.event.ActionListener() {
@@ -190,6 +198,7 @@ public class JPQuestions extends javax.swing.JPanel {
             }
         });
 
+        btnNext.setBackground(new java.awt.Color(230, 230, 230));
         btnNext.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         btnNext.setText(">");
         btnNext.addActionListener(new java.awt.event.ActionListener() {
@@ -198,6 +207,7 @@ public class JPQuestions extends javax.swing.JPanel {
             }
         });
 
+        btnBack.setBackground(new java.awt.Color(230, 230, 230));
         btnBack.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         btnBack.setText("<");
         btnBack.addActionListener(new java.awt.event.ActionListener() {
@@ -206,6 +216,7 @@ public class JPQuestions extends javax.swing.JPanel {
             }
         });
 
+        btnFirst.setBackground(new java.awt.Color(230, 230, 230));
         btnFirst.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         btnFirst.setText("<<");
         btnFirst.addActionListener(new java.awt.event.ActionListener() {
@@ -214,31 +225,38 @@ public class JPQuestions extends javax.swing.JPanel {
             }
         });
 
-        btnNew.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        btnNew.setBackground(new java.awt.Color(230, 230, 230));
+        btnNew.setFont(new java.awt.Font("Cambria Math", 0, 14)); // NOI18N
         btnNew.setText("Nova");
+        btnNew.setPreferredSize(new java.awt.Dimension(63, 32));
         btnNew.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNewActionPerformed(evt);
             }
         });
 
-        btnInsert.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        btnInsert.setBackground(new java.awt.Color(230, 230, 230));
+        btnInsert.setFont(new java.awt.Font("Cambria Math", 0, 14)); // NOI18N
         btnInsert.setText("Cadastrar");
+        btnInsert.setPreferredSize(new java.awt.Dimension(93, 32));
         btnInsert.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnInsertActionPerformed(evt);
             }
         });
 
-        btnEdit.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        btnEdit.setBackground(new java.awt.Color(230, 230, 230));
+        btnEdit.setFont(new java.awt.Font("Cambria Math", 0, 14)); // NOI18N
         btnEdit.setText("Editar");
+        btnEdit.setPreferredSize(new java.awt.Dimension(71, 32));
         btnEdit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditActionPerformed(evt);
             }
         });
 
-        btnDelete.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        btnDelete.setBackground(new java.awt.Color(230, 230, 230));
+        btnDelete.setFont(new java.awt.Font("Cambria Math", 0, 14)); // NOI18N
         btnDelete.setText("Excluir");
         btnDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -246,15 +264,10 @@ public class JPQuestions extends javax.swing.JPanel {
             }
         });
 
-        btnImgPreview.setText("jButton1");
-        btnImgPreview.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnImgPreviewActionPerformed(evt);
-            }
-        });
-
-        btnAlternatives.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        btnAlternatives.setBackground(new java.awt.Color(230, 230, 230));
+        btnAlternatives.setFont(new java.awt.Font("Cambria Math", 0, 14)); // NOI18N
         btnAlternatives.setText("Alternativas");
+        btnAlternatives.setPreferredSize(new java.awt.Dimension(107, 32));
         btnAlternatives.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAlternativesActionPerformed(evt);
@@ -265,51 +278,52 @@ public class JPQuestions extends javax.swing.JPanel {
         jpScroll.setLayout(jpScrollLayout);
         jpScrollLayout.setHorizontalGroup(
             jpScrollLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jpScrollLayout.createSequentialGroup()
-                .addGroup(jpScrollLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpScrollLayout.createSequentialGroup()
+                .addGroup(jpScrollLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jpScrollLayout.createSequentialGroup()
+                        .addGap(22, 22, 22)
                         .addGroup(jpScrollLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel2)
-                            .addGroup(jpScrollLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpScrollLayout.createSequentialGroup()
-                                    .addGap(67, 67, 67)
-                                    .addComponent(jLabel1))
-                                .addGroup(jpScrollLayout.createSequentialGroup()
-                                    .addGap(52, 52, 52)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jpScrollLayout.createSequentialGroup()
+                                .addGroup(jpScrollLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jpScrollLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(jLabel4)
-                                        .addComponent(jLabel3)))))
+                                        .addComponent(jLabel2)
+                                        .addGroup(jpScrollLayout.createSequentialGroup()
+                                            .addComponent(jLabel4)
+                                            .addGap(11, 11, 11))
+                                        .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING))
+                                    .addComponent(jLabel3))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jpScrollLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(cbMatters, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(cbDifficulties, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jpScrollLayout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtFileImage, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnFindImage, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpScrollLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jpScrollLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnEdit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnNew, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jpScrollLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 317, Short.MAX_VALUE)
-                            .addComponent(jScrollPane2)
-                            .addComponent(cbMatters, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(cbDifficulties, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(jpScrollLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jpScrollLayout.createSequentialGroup()
-                            .addComponent(btnNew)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(btnInsert)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(btnEdit)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(btnDelete)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(btnAlternatives))
-                        .addGroup(jpScrollLayout.createSequentialGroup()
-                            .addComponent(jLabel5)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(btnFindImage, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(txtFileImage, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(3, 3, 3)
-                            .addComponent(btnImgPreview, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 9, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnInsert, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnDelete, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnAlternatives, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(15, 15, 15)))
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jpScrollLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 442, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpScrollLayout.createSequentialGroup()
+                    .addGroup(jpScrollLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 442, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jpScrollLayout.createSequentialGroup()
+                        .addGap(134, 134, 134)
                         .addComponent(btnFirst)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnBack)
@@ -317,17 +331,16 @@ public class JPQuestions extends javax.swing.JPanel {
                         .addComponent(btnNext)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnLast)))
-                .addContainerGap())
+                .addContainerGap(24, Short.MAX_VALUE))
         );
         jpScrollLayout.setVerticalGroup(
             jpScrollLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpScrollLayout.createSequentialGroup()
-                .addGap(25, 25, 25)
                 .addGroup(jpScrollLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSeparator1)
                     .addGroup(jpScrollLayout.createSequentialGroup()
                         .addGroup(jpScrollLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jpScrollLayout.createSequentialGroup()
+                                .addGap(47, 47, 47)
                                 .addGroup(jpScrollLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel1)
                                     .addComponent(cbMatters, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -339,31 +352,42 @@ public class JPQuestions extends javax.swing.JPanel {
                                 .addGroup(jpScrollLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel3)
                                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(16, 16, 16)
                                 .addGroup(jpScrollLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
+                                    .addGroup(jpScrollLayout.createSequentialGroup()
+                                        .addGap(16, 16, 16)
+                                        .addComponent(jLabel4))
+                                    .addGroup(jpScrollLayout.createSequentialGroup()
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(16, 16, 16)
                                 .addGroup(jpScrollLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(btnFindImage, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(txtFileImage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnImgPreview)
-                                    .addComponent(jLabel5)))
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jpScrollLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jpScrollLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(btnLast)
-                                .addComponent(btnNext)
-                                .addComponent(btnBack))
-                            .addComponent(btnFirst)
-                            .addGroup(jpScrollLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(btnNew)
-                                .addComponent(btnInsert)
-                                .addComponent(btnEdit)
-                                .addComponent(btnDelete))
-                            .addComponent(btnAlternatives))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                                    .addComponent(jLabel5)
+                                    .addComponent(btnFindImage, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jpScrollLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btnInsert, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(jpScrollLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(btnAlternatives, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jpScrollLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnEdit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addGroup(jpScrollLayout.createSequentialGroup()
+                                .addGap(48, 48, 48)
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(10, 10, 10)
+                                .addGroup(jpScrollLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jpScrollLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(btnLast)
+                                        .addComponent(btnNext)
+                                        .addComponent(btnBack))
+                                    .addComponent(btnFirst))))
+                        .addGap(66, 66, 66))
+                    .addGroup(jpScrollLayout.createSequentialGroup()
+                        .addGap(26, 26, 26)
+                        .addComponent(jSeparator1)))
                 .addContainerGap())
         );
 
@@ -485,20 +509,6 @@ public class JPQuestions extends javax.swing.JPanel {
             }
         }
     }//GEN-LAST:event_btnFindImageActionPerformed
-
-    private void btnImgPreviewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImgPreviewActionPerformed
-        if (this._image != null) {
-            JFrame frame = new JFrame();
-            JPImage pImage = new JPImage(this._image);
-            Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-
-            frame.setLayout(new BorderLayout());
-            frame.add(pImage, BorderLayout.CENTER);
-            frame.pack();
-            frame.setLocation(dim.width / 2 - frame.getSize().width / 2, dim.height / 2 - frame.getSize().height / 2);
-            frame.setVisible(true);
-        }
-    }//GEN-LAST:event_btnImgPreviewActionPerformed
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
         try {
@@ -793,7 +803,6 @@ public class JPQuestions extends javax.swing.JPanel {
     private javax.swing.JButton btnEdit;
     private javax.swing.JButton btnFindImage;
     private javax.swing.JButton btnFirst;
-    private javax.swing.JButton btnImgPreview;
     private javax.swing.JButton btnInsert;
     private javax.swing.JButton btnLast;
     private javax.swing.JButton btnNew;

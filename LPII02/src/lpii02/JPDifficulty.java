@@ -120,23 +120,27 @@ public class JPDifficulty extends javax.swing.JPanel {
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Cambria Math", 0, 14)); // NOI18N
         jLabel1.setText("Código:");
         jLabel1.setName("lblCode"); // NOI18N
 
-        jLabel2.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Cambria Math", 0, 14)); // NOI18N
         jLabel2.setText("Nome:");
         jLabel2.setName("lblName"); // NOI18N
 
         txtCode.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        txtCode.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.lightGray, java.awt.Color.lightGray, java.awt.Color.lightGray, java.awt.Color.lightGray));
         txtCode.setEnabled(false);
         txtCode.setName("txtCode"); // NOI18N
 
         txtName.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        txtName.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.lightGray, java.awt.Color.lightGray, java.awt.Color.lightGray, java.awt.Color.lightGray));
         txtName.setName("txtDescription"); // NOI18N
 
-        btnAdd.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        btnAdd.setBackground(new java.awt.Color(230, 230, 230));
+        btnAdd.setFont(new java.awt.Font("Cambria Math", 0, 14)); // NOI18N
         btnAdd.setText("Cadastrar");
+        btnAdd.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnAdd.setName("btnInsert"); // NOI18N
         btnAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -144,8 +148,10 @@ public class JPDifficulty extends javax.swing.JPanel {
             }
         });
 
-        btnEdit.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        btnEdit.setBackground(new java.awt.Color(230, 230, 230));
+        btnEdit.setFont(new java.awt.Font("Cambria Math", 0, 14)); // NOI18N
         btnEdit.setText("Editar");
+        btnEdit.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnEdit.setName("btnEdit"); // NOI18N
         btnEdit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -153,8 +159,10 @@ public class JPDifficulty extends javax.swing.JPanel {
             }
         });
 
-        btnDelete.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        btnDelete.setBackground(new java.awt.Color(230, 230, 230));
+        btnDelete.setFont(new java.awt.Font("Cambria Math", 0, 14)); // NOI18N
         btnDelete.setText("Excluir");
+        btnDelete.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnDelete.setName("btnDelete"); // NOI18N
         btnDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -172,8 +180,11 @@ public class JPDifficulty extends javax.swing.JPanel {
             }
         ));
         grDifficulties.setName("grDifficulties"); // NOI18N
+        grDifficulties.setShowHorizontalLines(false);
+        grDifficulties.setShowVerticalLines(false);
         jScrollPane2.setViewportView(grDifficulties);
 
+        btnFirst.setBackground(new java.awt.Color(230, 230, 230));
         btnFirst.setText("<<");
         btnFirst.setName("btnFirst"); // NOI18N
         btnFirst.addActionListener(new java.awt.event.ActionListener() {
@@ -182,6 +193,7 @@ public class JPDifficulty extends javax.swing.JPanel {
             }
         });
 
+        btnBack.setBackground(new java.awt.Color(230, 230, 230));
         btnBack.setText("<");
         btnBack.setName("btnBack"); // NOI18N
         btnBack.addActionListener(new java.awt.event.ActionListener() {
@@ -190,6 +202,7 @@ public class JPDifficulty extends javax.swing.JPanel {
             }
         });
 
+        btnNext.setBackground(new java.awt.Color(230, 230, 230));
         btnNext.setText(">");
         btnNext.setName("btnNext"); // NOI18N
         btnNext.addActionListener(new java.awt.event.ActionListener() {
@@ -198,6 +211,7 @@ public class JPDifficulty extends javax.swing.JPanel {
             }
         });
 
+        btnLast.setBackground(new java.awt.Color(230, 230, 230));
         btnLast.setText(">>");
         btnLast.setName("btnLast"); // NOI18N
         btnLast.addActionListener(new java.awt.event.ActionListener() {
@@ -206,8 +220,10 @@ public class JPDifficulty extends javax.swing.JPanel {
             }
         });
 
-        btnNew.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        btnNew.setBackground(new java.awt.Color(230, 230, 230));
+        btnNew.setFont(new java.awt.Font("Cambria Math", 0, 14)); // NOI18N
         btnNew.setText("Novo");
+        btnNew.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnNew.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNewActionPerformed(evt);
@@ -229,31 +245,27 @@ public class JPDifficulty extends javax.swing.JPanel {
                 .addComponent(btnLast)
                 .addGap(20, 20, 20))
             .addGroup(jpDiffsLayout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jpDiffsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jpDiffsLayout.createSequentialGroup()
-                        .addContainerGap()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtCode, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jpDiffsLayout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(18, 18, 18)
                         .addGroup(jpDiffsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jpDiffsLayout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtCode, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jpDiffsLayout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(18, 18, 18)
-                                .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(jpDiffsLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jpDiffsLayout.createSequentialGroup()
-                        .addGap(38, 38, 38)
-                        .addComponent(btnNew)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnAdd)
-                        .addGap(10, 10, 10)
-                        .addComponent(btnEdit)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnDelete)))
-                .addContainerGap(21, Short.MAX_VALUE))
+                                .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
         jpDiffsLayout.setVerticalGroup(
             jpDiffsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
