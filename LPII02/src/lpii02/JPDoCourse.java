@@ -73,7 +73,7 @@ public class JPDoCourse extends javax.swing.JPanel {
     }
 
     private Scene createScene() {
-        //Instantiating Media class  
+        //Instantiating Media class
         File fileTemp = null;
         Scene scene = null;
 

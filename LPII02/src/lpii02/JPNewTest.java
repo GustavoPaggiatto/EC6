@@ -32,9 +32,9 @@ public class JPNewTest extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        cbTeacher = new javax.swing.JComboBox<Teacher>();
-        cbTeacher1 = new javax.swing.JComboBox<Teacher>();
-        txtCode = new javax.swing.JTextField();
+        cbDifficulty = new javax.swing.JComboBox<Teacher>();
+        cbMatter = new javax.swing.JComboBox<Teacher>();
+        txtQtdQuestions = new javax.swing.JTextField();
         btnNew = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -51,13 +51,13 @@ public class JPNewTest extends javax.swing.JFrame {
         jLabel3.setText("Quantidade de questões:");
         jLabel3.setName("lblCode"); // NOI18N
 
-        cbTeacher.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        cbDifficulty.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
 
-        cbTeacher1.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        cbMatter.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
 
-        txtCode.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        txtCode.setEnabled(false);
-        txtCode.setName("txtCode"); // NOI18N
+        txtQtdQuestions.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        txtQtdQuestions.setEnabled(false);
+        txtQtdQuestions.setName("txtQtdQuestions"); // NOI18N
 
         btnNew.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         btnNew.setText("Criar Simulado");
@@ -72,26 +72,25 @@ public class JPNewTest extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addGap(18, 18, 18)
-                                .addComponent(txtCode, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel1))
-                                .addGap(41, 41, 41)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(cbTeacher1, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(cbTeacher, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addComponent(jLabel3)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtQtdQuestions, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(93, 93, 93)
-                        .addComponent(btnNew)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel1))
+                        .addGap(41, 41, 41)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cbMatter, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cbDifficulty, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(131, Short.MAX_VALUE)
+                .addComponent(btnNew)
+                .addGap(124, 124, 124))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -99,18 +98,18 @@ public class JPNewTest extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(cbTeacher1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbMatter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(cbTeacher, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbDifficulty, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(txtCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(33, 33, 33)
+                    .addComponent(txtQtdQuestions, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
                 .addComponent(btnNew)
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addGap(19, 19, 19))
         );
 
         pack();
@@ -118,7 +117,7 @@ public class JPNewTest extends javax.swing.JFrame {
 
     private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
         //this.clearControls();
-        this.txtCode.setEnabled(true);
+        this.txtQtdQuestions.setEnabled(true);
     }//GEN-LAST:event_btnNewActionPerformed
 
     /**
@@ -158,11 +157,11 @@ public class JPNewTest extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnNew;
-    private javax.swing.JComboBox<Teacher> cbTeacher;
-    private javax.swing.JComboBox<Teacher> cbTeacher1;
+    private javax.swing.JComboBox<Teacher> cbDifficulty;
+    private javax.swing.JComboBox<Teacher> cbMatter;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JTextField txtCode;
+    private javax.swing.JTextField txtQtdQuestions;
     // End of variables declaration//GEN-END:variables
 }
