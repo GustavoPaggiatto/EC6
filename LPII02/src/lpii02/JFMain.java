@@ -10,10 +10,13 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Toolkit;
+import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.net.URL;
 import javax.imageio.ImageIO;
+import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 
 /**
@@ -48,7 +51,7 @@ public class JFMain extends javax.swing.JFrame {
                 Image _backImg = null;
 
                 try {
-                    _backImg = ImageIO.read(new File("C:\\Users\\Eleni Oliveira\\Documents\\GitHub\\EC6\\EC6\\Imgs\\logo_cranio-removebg-preview.png"));
+                    _backImg = ImageIO.read(new File("C:\\Users\\Gustavo\\Desktop\\EC5\\Java\\Projeto\\EC6\\Imgs\\CranioMain.jpg"));
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
@@ -63,9 +66,7 @@ public class JFMain extends javax.swing.JFrame {
             }
         };
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        jmPerfil = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
@@ -78,9 +79,9 @@ public class JFMain extends javax.swing.JFrame {
         jMenu5 = new javax.swing.JMenu();
         jMenuItem9 = new javax.swing.JMenuItem();
         jMenuItem10 = new javax.swing.JMenuItem();
-        jMenu4 = new javax.swing.JMenu();
         jMenu6 = new javax.swing.JMenu();
         jMenuItem13 = new javax.swing.JMenuItem();
+        jmSair = new javax.swing.JMenu();
 
         label1.setText("label1");
 
@@ -91,56 +92,49 @@ public class JFMain extends javax.swing.JFrame {
         setResizable(false);
         setSize(new java.awt.Dimension(800, 770));
 
-        jDesktopPane1.setBackground(new java.awt.Color(204, 204, 204));
-        jDesktopPane1.setForeground(new java.awt.Color(153, 153, 153));
+        jDesktopPane1.setBackground(new java.awt.Color(255, 255, 255));
+        jDesktopPane1.setForeground(new java.awt.Color(255, 255, 255));
         jDesktopPane1.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         jDesktopPane1.setName("mdiComponent"); // NOI18N
+        jDesktopPane1.setPreferredSize(new java.awt.Dimension(900, 500));
 
         javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
         jDesktopPane1.setLayout(jDesktopPane1Layout);
         jDesktopPane1Layout.setHorizontalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1228, Short.MAX_VALUE)
+            .addGap(0, 900, Short.MAX_VALUE)
         );
         jDesktopPane1Layout.setVerticalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 502, Short.MAX_VALUE)
+            .addGap(0, 500, Short.MAX_VALUE)
         );
 
+        jMenuBar1.setBackground(new java.awt.Color(211, 211, 211));
+        jMenuBar1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+        jMenuBar1.setForeground(new java.awt.Color(211, 211, 211));
         jMenuBar1.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
         jMenuBar1.setName("cpMenuBar"); // NOI18N
+        jMenuBar1.setPreferredSize(new java.awt.Dimension(326, 45));
 
-        jMenu1.setText("Arquivo");
-        jMenu1.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
-        jMenu1.setName("mFile"); // NOI18N
-
-        jMenuItem2.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        jMenuItem2.setText("Perfil");
-        jMenuItem2.setName("imPerfil"); // NOI18N
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
+        jmPerfil.setText("Perfil");
+        jmPerfil.setFont(new java.awt.Font("Cambria Math", 0, 18)); // NOI18N
+        jmPerfil.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jmPerfil.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        jmPerfil.setName("mFile"); // NOI18N
+        jmPerfil.setPreferredSize(new java.awt.Dimension(70, 19));
+        jmPerfil.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jmPerfilMouseClicked(evt);
             }
         });
-        jMenu1.add(jMenuItem2);
-
-        jMenuItem1.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
-        jMenuItem1.setText("Sair");
-        jMenuItem1.setName("imLeave"); // NOI18N
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
-            }
-        });
-        jMenu1.add(jMenuItem1);
-
-        jMenuBar1.add(jMenu1);
+        jMenuBar1.add(jmPerfil);
 
         jMenu2.setText("Cadastro");
-        jMenu2.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jMenu2.setFont(new java.awt.Font("Cambria Math", 0, 18)); // NOI18N
         jMenu2.setName("mInputs"); // NOI18N
+        jMenu2.setPreferredSize(new java.awt.Dimension(80, 19));
 
-        jMenuItem3.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        jMenuItem3.setFont(new java.awt.Font("Cambria Math", 0, 14)); // NOI18N
         jMenuItem3.setText("Matéria");
         jMenuItem3.setName("miInMatter"); // NOI18N
         jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
@@ -150,7 +144,7 @@ public class JFMain extends javax.swing.JFrame {
         });
         jMenu2.add(jMenuItem3);
 
-        jMenuItem4.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        jMenuItem4.setFont(new java.awt.Font("Cambria Math", 0, 14)); // NOI18N
         jMenuItem4.setText("Dificuldade");
         jMenuItem4.setName("miInDifficulty"); // NOI18N
         jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
@@ -160,7 +154,7 @@ public class JFMain extends javax.swing.JFrame {
         });
         jMenu2.add(jMenuItem4);
 
-        jMenuItem5.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        jMenuItem5.setFont(new java.awt.Font("Cambria Math", 0, 14)); // NOI18N
         jMenuItem5.setText("Permissões");
         jMenuItem5.setName("miInPermissions"); // NOI18N
         jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
@@ -170,7 +164,7 @@ public class JFMain extends javax.swing.JFrame {
         });
         jMenu2.add(jMenuItem5);
 
-        jMenuItem6.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        jMenuItem6.setFont(new java.awt.Font("Cambria Math", 0, 14)); // NOI18N
         jMenuItem6.setText("Grupo de Acesso");
         jMenuItem6.setName("miInAccessGroup"); // NOI18N
         jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
@@ -180,7 +174,7 @@ public class JFMain extends javax.swing.JFrame {
         });
         jMenu2.add(jMenuItem6);
 
-        jMenuItem7.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        jMenuItem7.setFont(new java.awt.Font("Cambria Math", 0, 14)); // NOI18N
         jMenuItem7.setText("Questões");
         jMenuItem7.setName("miInQuestions"); // NOI18N
         jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
@@ -194,10 +188,11 @@ public class JFMain extends javax.swing.JFrame {
 
         jMenu3.setText("Testes");
         jMenu3.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jMenu3.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jMenu3.setFont(new java.awt.Font("Cambria Math", 0, 18)); // NOI18N
         jMenu3.setName("mTests"); // NOI18N
+        jMenu3.setPreferredSize(new java.awt.Dimension(70, 19));
 
-        jMenuItem8.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        jMenuItem8.setFont(new java.awt.Font("Cambria Math", 0, 14)); // NOI18N
         jMenuItem8.setText("Histórico");
         jMenuItem8.setName("miHistory"); // NOI18N
         jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
@@ -207,6 +202,7 @@ public class JFMain extends javax.swing.JFrame {
         });
         jMenu3.add(jMenuItem8);
 
+        jMenuItem11.setFont(new java.awt.Font("Cambria Math", 0, 14)); // NOI18N
         jMenuItem11.setText("Novo Simulado");
         jMenuItem11.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -218,9 +214,10 @@ public class JFMain extends javax.swing.JFrame {
         jMenuBar1.add(jMenu3);
 
         jMenu5.setText("Cursos");
-        jMenu5.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jMenu5.setFont(new java.awt.Font("Cambria Math", 0, 18)); // NOI18N
+        jMenu5.setPreferredSize(new java.awt.Dimension(70, 19));
 
-        jMenuItem9.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        jMenuItem9.setFont(new java.awt.Font("Cambria Math", 0, 14)); // NOI18N
         jMenuItem9.setText("Cadastro");
         jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -229,7 +226,7 @@ public class JFMain extends javax.swing.JFrame {
         });
         jMenu5.add(jMenuItem9);
 
-        jMenuItem10.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        jMenuItem10.setFont(new java.awt.Font("Cambria Math", 0, 14)); // NOI18N
         jMenuItem10.setText("Disponibilidades");
         jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -240,15 +237,11 @@ public class JFMain extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu5);
 
-        jMenu4.setText("Fóruns");
-        jMenu4.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
-        jMenu4.setName("mForuns"); // NOI18N
-        jMenuBar1.add(jMenu4);
-
         jMenu6.setText("Ajuda");
-        jMenu6.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        jMenu6.setFont(new java.awt.Font("Cambria Math", 0, 18)); // NOI18N
+        jMenu6.setPreferredSize(new java.awt.Dimension(70, 19));
 
-        jMenuItem13.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        jMenuItem13.setFont(new java.awt.Font("Cambria Math", 0, 14)); // NOI18N
         jMenuItem13.setText("Sobre");
         jMenuItem13.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -259,19 +252,34 @@ public class JFMain extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu6);
 
+        jmSair.setBackground(new java.awt.Color(211, 211, 211));
+        jmSair.setText("Sair");
+        jmSair.setBorderPainted(true);
+        jmSair.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jmSair.setFont(new java.awt.Font("Cambria Math", 0, 18)); // NOI18N
+        jmSair.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jmSair.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jmSair.setPreferredSize(new java.awt.Dimension(70, 19));
+        jmSair.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jmSairMouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(jmSair);
+
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jDesktopPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jDesktopPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jDesktopPane1)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jDesktopPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -324,11 +332,6 @@ public class JFMain extends javax.swing.JFrame {
         this.jDesktopPane1.add(internalFrame);
         internalFrame.setVisible(true);
     }//GEN-LAST:event_jMenuItem5ActionPerformed
-
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        // TODO add your handling code here:
-        this.dispose();
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
         JInternalFrame internalFrame = new JInternalFrame("Histórico - Testes",
@@ -395,13 +398,6 @@ public class JFMain extends javax.swing.JFrame {
         internalFrame.setVisible(true);
     }//GEN-LAST:event_jMenuItem9ActionPerformed
 
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        // TODO add your handling code here:
-        JFProfile profile = new JFProfile();
-        profile.setVisible(true);
-        jDesktopPane1.add(profile);
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
-
     private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
         JInternalFrame internalFrame = new JInternalFrame("Novo Simulado",
                 true,
@@ -442,6 +438,25 @@ public class JFMain extends javax.swing.JFrame {
         internalFrame.setVisible(true);
     }//GEN-LAST:event_jMenuItem10ActionPerformed
 
+    private void jmSairMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jmSairMouseClicked
+        this.setVisible(false);
+        this.dispose();
+    }//GEN-LAST:event_jmSairMouseClicked
+
+    private void jmPerfilMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jmPerfilMouseClicked
+        JFrame frame = new JFrame();
+        JFProfile Perfil = new JFProfile();
+        this.jDesktopPane1.add(Perfil);
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+
+        frame.setLayout(new BorderLayout());
+        frame.add(Perfil, BorderLayout.CENTER);
+        frame.pack();
+
+        frame.setLocation(dim.width / 2 - frame.getSize().width / 2, dim.height / 2 - frame.getSize().height / 2);
+        frame.setVisible(true);
+    }//GEN-LAST:event_jmPerfilMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -480,18 +495,14 @@ public class JFMain extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane jDesktopPane1;
-    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenu jMenu6;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem10;
     private javax.swing.JMenuItem jMenuItem11;
     private javax.swing.JMenuItem jMenuItem13;
-    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
@@ -499,6 +510,8 @@ public class JFMain extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JMenuItem jMenuItem9;
+    private javax.swing.JMenu jmPerfil;
+    private javax.swing.JMenu jmSair;
     private java.awt.Label label1;
     // End of variables declaration//GEN-END:variables
 }
