@@ -5,6 +5,7 @@
  */
 package LPII02.Business.Services;
 
+import LPII02.Dal.Repositories.AlternativeRepository;
 import LPII02.Domain.Entities.Alternative;
 import LPII02.Domain.Entities.Question;
 import java.util.List;
@@ -14,11 +15,13 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.runner.RunWith;
 
 /**
  *
  * @author Gustavo
  */
+//@RunWith(MockitoJUnitRunner.class)
 public class AlternativeBusinessTest {
     
     public AlternativeBusinessTest() {
@@ -39,6 +42,12 @@ public class AlternativeBusinessTest {
     @After
     public void tearDown() {
     }
+    
+    //@Mock
+    private AlternativeRepository _altRepository;
+    
+    //@InjectMocks
+    private AlternativeBusiness _altBusiness;
 
     /**
      * Test of insert method, of class AlternativeBusiness.

@@ -26,6 +26,7 @@ public class JPRegister extends javax.swing.JPanel {
      */
     public JPRegister() {
         initComponents();
+        this.setVisible(true);
     }
 
     /**

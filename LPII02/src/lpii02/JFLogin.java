@@ -68,6 +68,16 @@ public class JFLogin extends javax.swing.JFrame {
 
         btnRegister.setFont(new java.awt.Font("Cambria", 0, 14)); // NOI18N
         btnRegister.setText("Registre-se");
+        btnRegister.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnRegisterMouseClicked(evt);
+            }
+        });
+        btnRegister.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegisterActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -126,7 +136,7 @@ public class JFLogin extends javax.swing.JFrame {
             user.setPassword(this.txtPassword.getText().toString());
 
             this._userBusiness.login(user);
-            
+
             JFMain frMain = new JFMain();
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(
@@ -136,6 +146,15 @@ public class JFLogin extends javax.swing.JFrame {
                     JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnLoginActionPerformed
+
+    private void btnRegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterActionPerformed
+
+    }//GEN-LAST:event_btnRegisterActionPerformed
+
+    private void btnRegisterMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegisterMouseClicked
+        JPRegister frRegister = new JPRegister();
+        frRegister.setVisible(true);
+    }//GEN-LAST:event_btnRegisterMouseClicked
 
     /**
      * @param args the command line arguments
