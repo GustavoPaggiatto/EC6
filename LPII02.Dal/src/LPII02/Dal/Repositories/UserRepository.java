@@ -21,8 +21,8 @@ public class UserRepository extends BaseRepository<User> {
     public UserRepository() {
         super(User.class);
     }
-    
-     public User search_User( ) {
+
+    public User search_User() {
         try {
             if (!this._session.isOpen()) {
                 this._session = HibernateUtil.getSessionFactory().openSession();
@@ -34,13 +34,36 @@ public class UserRepository extends BaseRepository<User> {
                 return null;
             }
             return result.get(0);
-       } catch (Exception ex) {
+        } catch (Exception ex) {
             throw ex;
         } finally {
             this._session.close();
         }
     }
-   
-}
-    
 
+    public User login(String login, String password) {
+        try {
+            if (!this._session.isOpen()) {
+                this._session = HibernateUtil.getSessionFactory().openSession();
+            }
+            Query query = this._session.createSQLQuery("select u.id,u.name,u.login from [User] u where u.login='" + login + "' and u.password='" + password + "'");
+            List<Object[]> rows = query.list();
+
+            if (rows == null || rows.size() == 0) {
+                return null;
+            }
+
+            User user = new User();
+            user.setId(Integer.parseInt(rows.get(0)[0].toString()));
+            user.setName(rows.get(0)[1].toString());
+            user.setLogin(rows.get(0)[2].toString());
+
+            return user;
+        } catch (Exception ex) {
+            throw ex;
+        } finally {
+            this._session.close();
+        }
+    }
+
+}

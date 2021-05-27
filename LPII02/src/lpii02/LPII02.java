@@ -20,19 +20,20 @@ public class LPII02 {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        new JFMain();
+//        new JFMain();
+        new JFLogin();
     }
-    
+
     private static void registerDependencies() throws ClassNotFoundException, FileNotFoundException, IOException {
         // Create Properties object.
-	Properties props = new Properties();
-	
+        Properties props = new Properties();
+
         // Properties will use a FileReader object as input.
-	FileReader fReader = new FileReader("JDBCSettings.properties");
-        
+        FileReader fReader = new FileReader("JDBCSettings.properties");
+
         // Load jdbc related properties in above file. 
-	props.load(fReader);
-			
+        props.load(fReader);
+
         Class.forName(props.getProperty("db.driver.class"));
     }
 }

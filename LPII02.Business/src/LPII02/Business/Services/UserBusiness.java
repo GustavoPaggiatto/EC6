@@ -7,6 +7,8 @@ package LPII02.Business.Services;
 
 import LPII02.Dal.Repositories.UserRepository;
 import LPII02.Domain.Entities.User;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
 import java.util.UUID;
 
 /**
@@ -48,6 +50,47 @@ public class UserBusiness extends BaseBusiness<User> {
             throw new Exception("Ocorreu um erro durante a alteração do usuário, "
                     + "tente novamente ou contate a equipe responsável.");
         }
+    }
+
+    public void login(User user) throws Exception {
+        if (user.getLogin() == null) {
+            throw new Exception("Login não informado!");
+        }
+
+        user.setLogin(user.getLogin().trim());
+
+        if (user.getLogin().length() == 0) {
+            throw new Exception("Login não informado!");
+        }
+
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        byte[] messageDigest = md.digest(user.getPassword().getBytes(StandardCharsets.UTF_8));
+        String senhahex = bytesToHex(messageDigest);
+
+        try {
+            User result = ((UserRepository) this._repository).login(user.getLogin(), senhahex);
+
+            if (result == null) {
+                throw new Exception("Usuário/senha inválidos, tente novamente.");
+            }
+        } catch (Exception ex) {
+            throw new Exception("Ocorreu um erro na base de dados ao autenticar o usuário, "
+                    + "tente novamente ou contate a equipe responsável.");
+        }
+    }
+
+    private String bytesToHex(byte[] hash) {
+        StringBuilder hexString = new StringBuilder(2 * hash.length);
+        
+        for (int i = 0; i < hash.length; i++) {
+            String hex = Integer.toHexString(0xff & hash[i]);
+            if (hex.length() == 1) {
+                hexString.append('0');
+            }
+            hexString.append(hex);
+        }
+        
+        return hexString.toString();
     }
 
     private void commonValidations(User model) throws Exception {

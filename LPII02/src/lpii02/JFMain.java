@@ -399,6 +399,7 @@ public class JFMain extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem9ActionPerformed
 
     private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
+        /*
         JInternalFrame internalFrame = new JInternalFrame("Novo Simulado",
                 true,
                 true,
@@ -412,7 +413,7 @@ public class JFMain extends javax.swing.JFrame {
         internalFrame.pack();
 
         this.jDesktopPane1.add(internalFrame);
-        internalFrame.setVisible(true);     // TODO add your handling code here:
+        internalFrame.setVisible(true);     // TODO add your handling code here:*/
     }//GEN-LAST:event_jMenuItem11ActionPerformed
 
     private void jMenuItem13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem13ActionPerformed
