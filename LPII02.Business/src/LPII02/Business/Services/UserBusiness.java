@@ -79,9 +79,25 @@ public class UserBusiness extends BaseBusiness<User> {
         }
     }
 
+    public void register(User user, String confirmPasswd) throws Exception {
+        if (user.getLogin() == null) {
+            throw new Exception("Login não informado!");
+        }
+
+        user.setLogin(user.getLogin().trim());
+
+        if (user.getLogin().length() == 0) {
+            throw new Exception("Login não informado!");
+        }
+
+        if (!user.getPassword().equals(confirmPasswd)) {
+            throw new Exception("Confirmação da senha não confere com a senha informada!");
+        }
+    }
+
     private String bytesToHex(byte[] hash) {
         StringBuilder hexString = new StringBuilder(2 * hash.length);
-        
+
         for (int i = 0; i < hash.length; i++) {
             String hex = Integer.toHexString(0xff & hash[i]);
             if (hex.length() == 1) {
@@ -89,7 +105,7 @@ public class UserBusiness extends BaseBusiness<User> {
             }
             hexString.append(hex);
         }
-        
+
         return hexString.toString();
     }
 

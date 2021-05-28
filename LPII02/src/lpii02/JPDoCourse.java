@@ -95,17 +95,22 @@ public class JPDoCourse extends javax.swing.JPanel {
             MediaView mediaView = new MediaView(mediaPlayer);
             MediaBar mBar = new MediaBar(mediaPlayer);
             BorderPane borderPane = new BorderPane();
-            
+
             borderPane.setBottom(mediaView);
             borderPane.setTop(mBar);
-
-            //by setting this property to true, the Video will be played   
+            
+            //by setting this property to true, the Video will be played
             mediaPlayer.setAutoPlay(true);
+            mediaView.autosize();
+            mediaView.maxHeight(1200);
+            mediaView.maxWidth(1000);
+            mediaView.fitWidthProperty();
+            mediaView.fitHeightProperty();
 
-            //setting group and scene   
+            //setting group and scene
             Group root = new Group();
             root.getChildren().add(borderPane);
-            scene = new Scene(root, 728, 450, Color.ALICEBLUE);
+            scene = new Scene(root, 1200, 1000, Color.ALICEBLUE);
 
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
@@ -155,11 +160,11 @@ public class JPDoCourse extends javax.swing.JPanel {
         jpStream.setLayout(jpStreamLayout);
         jpStreamLayout.setHorizontalGroup(
             jpStreamLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 728, Short.MAX_VALUE)
+            .addGap(0, 800, Short.MAX_VALUE)
         );
         jpStreamLayout.setVerticalGroup(
             jpStreamLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 357, Short.MAX_VALUE)
+            .addGap(0, 471, Short.MAX_VALUE)
         );
 
         btnNext.setText(">");
@@ -199,13 +204,13 @@ public class JPDoCourse extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jpStream, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jpStream, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnNext)
                     .addComponent(btnBack)
                     .addComponent(lblClass))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
